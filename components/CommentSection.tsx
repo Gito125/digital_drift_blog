@@ -27,8 +27,8 @@ export default function CommentSection({ postId }: CommentSectionProps) {
         if (!res.ok) throw new Error('Failed to load comments.');
         const data = await res.json();
         setComments(data.comments);
-      } catch (err: any) {
-        setError(err.message);
+      } catch (err: unknown) {
+        setError(err instanceof Error ? err.message : "Failed to load comments");
       } finally {
         setLoading(false);
       }
@@ -57,8 +57,8 @@ export default function CommentSection({ postId }: CommentSectionProps) {
       // We can show a message to the user instead.
       setNewComment('');
       alert('Your comment has been submitted for moderation.');
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Failed to post comment");
     }
   };
 

@@ -28,7 +28,6 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
-    // @ts-ignore
     if (!session || session.user?.role !== "admin") {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }

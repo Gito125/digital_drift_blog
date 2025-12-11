@@ -25,8 +25,8 @@ async function getPostById(id: string): Promise<Post> {
  * Edit Post Page
  * Fetches post data and renders the form for editing.
  */
-export default async function EditPostPage({ params }: { params: { id: string } }) {
-  const { id } = params;
+export default async function EditPostPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const post = await getPostById(id);
 
   return (

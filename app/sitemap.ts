@@ -1,14 +1,29 @@
 import { MetadataRoute } from 'next';
-import { getAllPublishedPosts } from '@/lib/posts';
+import { Post } from '@/models/Post';
+import clientPromise from '@/lib/mongodb';
 
-const URL = 'https://digitaldrift.com';
+const URL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+
+/**
+ * Fetches all published posts for sitemap generation.
+ */
+async function getAllPublishedPosts(): Promise<Post[]> {
+  const client = await clientPromise;
+  const db = client.db();
+  const posts = await db.collection<Post>('posts')
+    .find({ status: 'published' })
+    .sort({ publishedAt: -1 })
+    .toArray();
+
+  return posts;
+}
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const posts = await getAllPublishedPosts();
 
   const postEntries: MetadataRoute.Sitemap = posts.map(post => ({
     url: `${URL}/blog/${post.slug}`,
-    lastModified: new Date(post.updatedAt),
+    lastModified: post.updatedAt,
     changeFrequency: 'weekly',
     priority: 0.8,
   }));

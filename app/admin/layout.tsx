@@ -1,4 +1,7 @@
+"use client";
+
 import Link from 'next/link';
+import { signOut } from 'next-auth/react';
 
 /**
  * Admin Layout
@@ -18,6 +21,12 @@ export default function AdminLayout({
           <Link href="/admin/posts" className="px-3 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700">Posts</Link>
           <Link href="/admin/categories" className="px-3 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700">Categories</Link>
           <Link href="/admin/comments" className="px-3 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700">Comments</Link>
+          <button
+            onClick={() => signOut({ callbackUrl: '/login' })}
+            className="w-full text-left px-3 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 text-red-500"
+          >
+            Logout
+          </button>
         </nav>
       </aside>
       <main className="flex-1 p-8">

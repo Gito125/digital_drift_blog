@@ -3,7 +3,6 @@ import clientPromise from "./mongodb";
 
 /**
  * Fetches all published posts for sitemap generation and other public-facing lists.
- * @returns {Promise<Post[]>}
  */
 export async function getAllPublishedPosts(): Promise<Post[]> {
   const client = await clientPromise;

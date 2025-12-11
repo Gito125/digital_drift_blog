@@ -1,5 +1,7 @@
 import { MetadataRoute } from 'next';
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: {
@@ -7,6 +9,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: '/admin/',
     },
-    sitemap: 'https://digitaldrift.com/sitemap.xml',
+    sitemap: `${SITE_URL}/sitemap.xml`,
   };
 }

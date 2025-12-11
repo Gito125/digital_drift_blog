@@ -28,7 +28,6 @@ export async function GET(request: NextRequest) {
 
     let query: any = { status: 'published' };
 
-    // @ts-ignore
     if (session && session.user?.role === 'admin' && status === 'all') {
       query = {}; // Admin can see all posts
     }
@@ -70,7 +69,6 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
-    // @ts-ignore
     if (!session || session.user?.role !== "admin") {
       return NextResponse.json(
         { error: "Unauthorized" },
@@ -99,8 +97,7 @@ export async function POST(request: NextRequest) {
       slug,
       content,
       excerpt: excerpt || content.substring(0, 100),
-      // @ts-ignore
-      author: session.user.id,
+      author: session.user?.id || "",
       publishedAt: status === 'published' ? new Date() : null,
       status,
       tags: tags || [],

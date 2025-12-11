@@ -14,7 +14,7 @@ interface ShareButtonsProps {
   slug: string;
 }
 
-const URL = 'https://digitaldrift.com';
+const URL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
 
 /**
  * A component that renders social media share buttons.

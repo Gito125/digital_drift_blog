@@ -68,8 +68,7 @@ export async function POST(request: NextRequest) {
 
     const newComment: Omit<Comment, '_id'> = {
       postId,
-      // @ts-ignore
-      userId: session.user.id,
+      userId: session.user?.id || "",
       content,
       createdAt: new Date(),
       approved: false, // Default to unapproved

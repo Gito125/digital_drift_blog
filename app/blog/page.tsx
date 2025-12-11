@@ -10,7 +10,8 @@ async function getPosts(page: number = 1): Promise<{ posts: Post[], total: numbe
   // This fetch call would be to our own API, but for simplicity in a server component,
   // we can directly access the database logic. However, calling the API is a good practice
   // for consistency and reusability. Let's call the API.
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/posts?page=${page}`, { cache: 'no-store' });
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL || '';
+  const res = await fetch(`${baseUrl}/api/posts?page=${page}`, { cache: 'no-store' });
   if (!res.ok) {
     throw new Error('Failed to fetch posts');
   }
@@ -21,8 +22,9 @@ async function getPosts(page: number = 1): Promise<{ posts: Post[], total: numbe
  * Blog list page
  * Displays a paginated list of published posts
  */
-export default async function BlogPage({ searchParams }: { searchParams: { page?: string } }) {
-  const page = searchParams.page ? parseInt(searchParams.page) : 1;
+export default async function BlogPage(props: { searchParams: Promise<{ page?: string }> }) {
+  const resolvedSearchParams = await props.searchParams;
+  const page = resolvedSearchParams.page ? parseInt(resolvedSearchParams.page) : 1;
   const { posts, total, limit } = await getPosts(page);
   const totalPages = Math.ceil(total / limit);
 
@@ -41,7 +43,7 @@ export default async function BlogPage({ searchParams }: { searchParams: { page?
               {post.excerpt}
             </p>
             <div className="text-sm text-text/60">
-              <span>{new Date(post.publishedAt!).toLocaleDateString()}</span>
+              <span>{post.publishedAt ? new Date(post.publishedAt).toLocaleDateString() : 'Not published'}</span>
               <span className="mx-2">|</span>
               <span>{post.viewCount} views</span>
             </div>

@@ -2,6 +2,7 @@
  * NextAuth.js configuration options
  * @see https://next-auth.js.org/configuration/options
  */
+import bcrypt from 'bcryptjs';
 import type { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import clientPromise from './lib/mongodb';
@@ -24,12 +25,10 @@ export const authOptions: NextAuthOptions = {
         const db = client.db();
         const user = await db.collection<User>('users').findOne({ email: credentials.email });
 
-        if (user) {
-          // In a real application, you'd want to hash and compare passwords
-          // For this project, we'll do a simple comparison
-          const isValid = user.password === credentials.password;
+        if (user && user.password) { // Ensure user and user.password exist
+          const isValid = await bcrypt.compare(credentials.password, user.password);
           if (isValid) {
-            return { id: user._id, name: user.name, email: user.email, role: user.role } as any;
+            return { id: user._id, name: user.name, email: user.email, role: user.role };
           }
         }
         return null;
@@ -48,8 +47,7 @@ export const authOptions: NextAuthOptions = {
     },
     async session({ session, token }) {
       if (session.user) {
-        // @ts-ignore
-        session.user.role = token.role;
+        session.user.role = token.role as string;
       }
       return session;
     },
@@ -59,3 +57,4 @@ export const authOptions: NextAuthOptions = {
     signIn: '/login',
   }
 };
+

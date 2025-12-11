@@ -9,9 +9,9 @@ import { ObjectId } from "mongodb";
  * GET /api/posts/{id}
  * Fetches a single post by its ID
  */
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const { id } = params;
+    const { id } = await params;
     if (!ObjectId.isValid(id)) {
       return NextResponse.json({ error: "Invalid post ID" }, { status: 400 });
     }
@@ -38,15 +38,13 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
  * PUT /api/posts/{id}
  * Updates a post (admin only)
  */
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const { id } = await params;
     const session = await getServerSession(authOptions);
-    // @ts-ignore
     if (!session || session.user?.role !== "admin") {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
-
-    const { id } = params;
     if (!ObjectId.isValid(id)) {
       return NextResponse.json({ error: "Invalid post ID" }, { status: 400 });
     }
@@ -97,15 +95,13 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
  * DELETE /api/posts/{id}
  * Deletes a post (admin only)
  */
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const { id } = await params;
     const session = await getServerSession(authOptions);
-    // @ts-ignore
     if (!session || session.user?.role !== "admin") {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
-
-    const { id } = params;
     if (!ObjectId.isValid(id)) {
       return NextResponse.json({ error: "Invalid post ID" }, { status: 400 });
     }

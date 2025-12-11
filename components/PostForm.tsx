@@ -49,8 +49,8 @@ export default function PostForm({ post, isNew = false }: PostFormProps) {
 
       router.push('/admin/posts');
       router.refresh(); // Refresh the posts list
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "An error occurred");
     } finally {
       setSubmitting(false);
     }

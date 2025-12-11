@@ -65,7 +65,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       <article className="prose prose-lg dark:prose-invert mx-auto">
         <h1 className="font-heading">{post.title}</h1>
         <div className="text-sm text-text/60 mb-8">
-            <span>{new Date(post.publishedAt!).toLocaleDateString()}</span>
+            <span>{post.publishedAt ? new Date(post.publishedAt).toLocaleDateString() : 'Not published'}</span>
             <span className="mx-2">|</span>
             <span>{post.viewCount} views</span>
         </div>
