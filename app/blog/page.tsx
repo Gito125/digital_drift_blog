@@ -43,7 +43,13 @@ export default async function BlogPage(props: { searchParams: Promise<{ page?: s
               {post.excerpt}
             </p>
             <div className="text-sm text-text/60">
-              <span>{post.publishedAt ? new Date(post.publishedAt).toLocaleDateString() : 'Not published'}</span>
+              <span>
+                {post.publishedAt ?
+                  (typeof post.publishedAt === 'string' ?
+                    new Date(post.publishedAt).toLocaleDateString() :
+                    post.publishedAt.toLocaleDateString())
+                  : 'Not published'}
+              </span>
               <span className="mx-2">|</span>
               <span>{post.viewCount} views</span>
             </div>

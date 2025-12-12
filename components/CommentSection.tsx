@@ -26,7 +26,15 @@ export default function CommentSection({ postId }: CommentSectionProps) {
         const res = await fetch(`/api/comments?postId=${postId}`);
         if (!res.ok) throw new Error('Failed to load comments.');
         const data = await res.json();
-        setComments(data.comments);
+
+        // Show all comments if user is logged in (including their own unapproved comments)
+        // Only show approved comments if user is not logged in
+        if (session?.user?.id) {
+          setComments(data.comments);
+        } else {
+          // Only show approved comments if user is not logged in
+          setComments(data.comments.filter((comment: Comment) => comment.approved));
+        }
       } catch (err: unknown) {
         setError(err instanceof Error ? err.message : "Failed to load comments");
       } finally {
@@ -34,7 +42,7 @@ export default function CommentSection({ postId }: CommentSectionProps) {
       }
     };
     fetchComments();
-  }, [postId]);
+  }, [postId, session?.user?.id]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -67,25 +75,30 @@ export default function CommentSection({ postId }: CommentSectionProps) {
       <h2 className="text-2xl font-heading mb-4">Comments</h2>
       {session ? (
         <form onSubmit={handleSubmit} className="mb-8">
-          <textarea
-            className="w-full p-2 border rounded bg-transparent focus:ring-accent focus:border-accent"
-            rows={3}
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-            placeholder="Write a comment..."
-            required
-          />
+          <div className="mb-4">
+            <textarea
+              className="w-full p-3 border rounded-lg bg-white dark:bg-gray-700 focus:ring-2 focus:ring-accent focus:border-transparent"
+              rows={4}
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+              placeholder="Share your thoughts..."
+              required
+            />
+          </div>
           <button
             type="submit"
-            className="mt-2 px-4 py-2 bg-accent text-white rounded hover:bg-opacity-90"
+            className="px-6 py-2 bg-accent text-white rounded-lg hover:opacity-90 transition-opacity"
           >
-            Submit Comment
+            Post Comment
           </button>
         </form>
       ) : (
-        <p className="mb-8">
-          <a href="/login" className="text-accent underline">Log in</a> to post a comment.
-        </p>
+        <div className="mb-8 p-4 bg-gray-100 dark:bg-gray-700 rounded-lg text-center">
+          <p className="mb-2">Please log in to leave a comment</p>
+          <a href="/login" className="inline-block px-4 py-2 bg-accent text-white rounded-lg hover:opacity-90 transition-opacity">
+            Log In
+          </a>
+        </div>
       )}
 
       {loading && <p>Loading comments...</p>}
@@ -94,12 +107,21 @@ export default function CommentSection({ postId }: CommentSectionProps) {
       <div className="space-y-4">
         {comments.length > 0 ? (
           comments.map((comment) => (
-            <div key={comment._id} className="p-4 border rounded-lg">
+            <div key={comment._id} className={`p-4 border rounded-lg ${!comment.approved ? 'opacity-70 bg-gray-50 dark:bg-gray-700/30' : ''}`}>
               <p>{comment.content}</p>
-              <p className="text-sm text-text/60 mt-2">
-                {/* We need user data to show name, for now it's just the date */}
-                Posted on {new Date(comment.createdAt).toLocaleDateString()}
-              </p>
+              <div className="flex justify-between items-center mt-2">
+                <p className="text-sm text-text/60">
+                  {/* We need user data to show name, for now it's just the date */}
+                  Posted on {typeof comment.createdAt === 'string' ?
+                    new Date(comment.createdAt).toLocaleDateString() :
+                    comment.createdAt.toLocaleDateString()}
+                </p>
+                {!comment.approved && (
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-200">
+                    Pending
+                  </span>
+                )}
+              </div>
             </div>
           ))
         ) : (

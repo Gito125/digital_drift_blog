@@ -28,7 +28,21 @@ export async function GET(request: NextRequest) {
     // @ts-ignore
     if (session?.user?.role === 'admin' && filter === 'all') {
       // Admin can fetch all comments
+      query = { postId: postId };
+    } else if (session?.user?.id) {
+      // Authenticated users can see their own comments and approved comments
+      if (!postId || !ObjectId.isValid(postId)) {
+        return NextResponse.json({ error: "Invalid postId" }, { status: 400 });
+      }
+      query = {
+        postId: postId,
+        $or: [
+          { approved: true },
+          { userId: session.user.id }
+        ]
+      };
     } else {
+      // Non-authenticated users can only see approved comments
       if (!postId || !ObjectId.isValid(postId)) {
         return NextResponse.json({ error: "Invalid postId" }, { status: 400 });
       }

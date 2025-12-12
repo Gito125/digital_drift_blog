@@ -3,6 +3,7 @@ import localFont from 'next/font/local';
 import { getServerSession } from "next-auth/next";
 import Providers from './providers';
 import { authOptions } from "@/auth";
+import Header from '@/components/Header';
 import "./globals.css";
 
 import {
@@ -37,7 +38,7 @@ export const remi = Work_Sans({
 export const remisa = Playfair_Display({
   weight: ['400', '600'], // Elegant serif replacement
   subsets: ['latin'],
-  variable: '--font-remisa',
+  variable: '--font-remi',
   display: 'swap',
 });
 
@@ -64,10 +65,13 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${azurio.variable} ${goga.variable} ${remi.variable} ${remisa.variable} ${emilio.variable} font-body antialiased`}
+        className={`${azurio.variable} ${goga.variable} ${remi.variable} ${remisa.variable} ${emilio.variable} font-body antialiased bg-background text-text`}
       >
         <Providers session={session}>
-          {children}
+          <Header />
+          <main>
+            {children}
+          </main>
         </Providers>
       </body>
     </html>

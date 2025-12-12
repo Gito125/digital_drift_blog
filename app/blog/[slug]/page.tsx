@@ -2,6 +2,8 @@ import { Post } from "@/models/Post";
 import { notFound } from "next/navigation";
 import { marked } from 'marked';
 import type { Metadata } from 'next';
+import { getServerSession } from 'next-auth/next';
+import { authOptions } from '@/auth';
 
 /**
  * Fetches a single post by slug from the API
@@ -33,6 +35,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     };
   }
 
+  // Convert publishedAt to a Date object if it's a string
+  const publishedAtDate = post.publishedAt ?
+    typeof post.publishedAt === 'string' ? new Date(post.publishedAt) : post.publishedAt
+    : null;
+
   return {
     title: `${post.title} | Digital Drift`,
     description: post.excerpt,
@@ -40,7 +47,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       title: post.title,
       description: post.excerpt,
       type: 'article',
-      publishedTime: post.publishedAt?.toISOString(),
+      publishedTime: publishedAtDate ? publishedAtDate.toISOString() : undefined,
       url: `/blog/${post.slug}`,
     },
   };
@@ -57,23 +64,46 @@ import ShareButtons from "@/components/ShareButtons";
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const post = await getPostBySlug(slug);
+  const session = await getServerSession(authOptions);
 
   const contentHtml = marked(post.content);
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <article className="prose prose-lg dark:prose-invert mx-auto">
-        <h1 className="font-heading">{post.title}</h1>
-        <div className="text-sm text-text/60 mb-8">
-            <span>{post.publishedAt ? new Date(post.publishedAt).toLocaleDateString() : 'Not published'}</span>
-            <span className="mx-2">|</span>
+    <div className="container mx-auto px-4 py-8 max-w-4xl">
+      <article className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 md:p-8 mb-8 border border-gray-200 dark:border-gray-700">
+        <div className="mb-6">
+          <h1 className="text-3xl md:text-4xl font-heading font-bold text-text mb-4">{post.title}</h1>
+          <div className="flex flex-col sm:flex-row sm:items-center text-sm text-text/80 mt-2">
+            <span>
+              {post.publishedAt ?
+                (typeof post.publishedAt === 'string' ?
+                  new Date(post.publishedAt).toLocaleDateString() :
+                  post.publishedAt.toLocaleDateString())
+                : 'Not published'}
+            </span>
+            <span className="hidden sm:block mx-2">•</span>
             <span>{post.viewCount} views</span>
+            <span className="hidden sm:block mx-2">•</span>
+            <span className="mt-1 sm:mt-0">By {post.author}</span>
+          </div>
         </div>
-        <div dangerouslySetInnerHTML={{ __html: contentHtml }} />
+
+        <div className="prose prose-lg prose-headings:text-text prose-p:text-text prose-a:text-accent dark:prose-invert max-w-none">
+          <div
+            className="blog-content"
+            dangerouslySetInnerHTML={{ __html: contentHtml }}
+          />
+        </div>
       </article>
-      <div className="max-w-3xl mx-auto">
-        <ShareButtons title={post.title} slug={post.slug} />
-        <CommentSection postId={post._id} />
+
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 md:p-8 border border-gray-200 dark:border-gray-700">
+        <div className="flex flex-wrap gap-4 mb-6">
+          <ShareButtons title={post.title} slug={post.slug} />
+        </div>
+
+        <div className="border-t border-gray-200 dark:border-gray-700 pt-6">
+          <CommentSection postId={post._id} />
+        </div>
       </div>
     </div>
   );
@@ -86,7 +116,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 export async function generateStaticParams() {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/posts?limit=1000`);
   const { posts } = await res.json();
- 
+
   return posts.map((post: Post) => ({
     slug: post.slug,
   }));

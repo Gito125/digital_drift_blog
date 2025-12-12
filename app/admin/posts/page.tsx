@@ -50,7 +50,11 @@ export default async function AdminPostsPage() {
                     {post.status}
                   </span>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap">{new Date(post.createdAt).toLocaleDateString()}</td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  {typeof post.createdAt === 'string' ?
+                    new Date(post.createdAt).toLocaleDateString() :
+                    post.createdAt.toLocaleDateString()}
+                </td>
                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                   <Link href={`/admin/posts/${post._id}/edit`} className="text-accent hover:underline mr-4">Edit</Link>
                   <button className="text-red-600 hover:underline">Delete</button>

@@ -67,7 +67,11 @@ export default function AdminCommentsPage() {
                     {comment.approved ? 'Approved' : 'Pending'}
                   </span>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap">{new Date(comment.createdAt).toLocaleDateString()}</td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  {typeof comment.createdAt === 'string' ?
+                    new Date(comment.createdAt).toLocaleDateString() :
+                    comment.createdAt.toLocaleDateString()}
+                </td>
                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                   {!comment.approved && (
                     <button onClick={() => handleApproval(comment._id, true)} className="text-green-600 hover:underline mr-4">Approve</button>
