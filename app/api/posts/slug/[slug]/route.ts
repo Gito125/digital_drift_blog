@@ -9,7 +9,7 @@ import { ObjectId } from "mongodb";
  */
 export async function GET(request: NextRequest, { params }: { params: { slug: string } }) {
   try {
-    const { slug } = params;
+    const { slug } = await params;
 
     const client = await clientPromise;
     const db = client.db();

@@ -25,6 +25,16 @@ export default {
         background: 'var(--color-bg)',
         text: 'var(--color-text)',
         accent: 'var(--color-accent)',
+        // Define light and dark theme colors explicitly
+        light: {
+          bg: '#F7F7FF',
+          text: '#1A1A1A',
+        },
+        dark: {
+          bg: '#1A1A2E',
+          text: '#F7F7FF',
+          accent: '#27187E',
+        }
       },
       fontFamily: {
         heading: ['var(--font-azurio)', 'sans-serif'],
