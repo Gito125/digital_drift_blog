@@ -9,6 +9,13 @@ import { TechnologyStackSection } from '@/components/main/TechnologyStackSection
 import CTA_Section from '@/components/main/CTA_Section';
 import FooterSection from '@/components/main/FooterSection';
 import CTA_Button from '@/components/ui/CTA_Button';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: "Digital Drift - Exploring the Digital Frontier",
+  description: "Welcome to Digital Drift, a modern blog for tech enthusiasts and developers. Explore articles on Next.js, React, serverless, and the latest web development trends.",
+};
+
 
 /**
  * Digital Drift Home Page Component

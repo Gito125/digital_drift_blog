@@ -365,15 +365,26 @@ export default function AdminCategoriesPage() {
 
       {/* Create Category Modal */}
       {showCreateModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-          <div className="bg-background rounded-xl border border-foreground/10 w-full max-w-md">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+          <div className="bg-background rounded-2xl border border-foreground/20 w-full max-w-md shadow-xl transform transition-all">
             <div className="p-6">
-              <h2 className="text-xl font-semibold text-foreground mb-4">Create New Category</h2>
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-heading font-semibold text-foreground">Create New Category</h2>
+                <button
+                  onClick={() => setShowCreateModal(false)}
+                  className="w-8 h-8 rounded-full bg-foreground/5 hover:bg-foreground/10 flex items-center justify-center transition-colors"
+                  aria-label="Close"
+                >
+                  <svg className="w-5 h-5 text-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
 
               <form onSubmit={handleCreateCategory}>
-                <div className="space-y-4">
+                <div className="space-y-5">
                   <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-foreground mb-1">
+                    <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
                       Name
                     </label>
                     <input
@@ -381,13 +392,14 @@ export default function AdminCategoriesPage() {
                       id="name"
                       value={newCategory.name}
                       onChange={(e) => setNewCategory({...newCategory, name: e.target.value})}
-                      className="w-full px-3 py-2 border border-foreground/10 rounded-lg bg-background/50 text-foreground"
+                      className="w-full px-4 py-3 border border-foreground/20 rounded-xl bg-background/50 text-foreground focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent transition-colors"
+                      placeholder="Enter category name"
                       required
                     />
                   </div>
 
                   <div>
-                    <label htmlFor="slug" className="block text-sm font-medium text-foreground mb-1">
+                    <label htmlFor="slug" className="block text-sm font-medium text-foreground mb-2">
                       Slug
                     </label>
                     <input
@@ -395,39 +407,41 @@ export default function AdminCategoriesPage() {
                       id="slug"
                       value={newCategory.slug}
                       onChange={(e) => setNewCategory({...newCategory, slug: e.target.value})}
-                      className="w-full px-3 py-2 border border-foreground/10 rounded-lg bg-background/50 text-foreground"
+                      className="w-full px-4 py-3 border border-foreground/20 rounded-xl bg-background/50 text-foreground focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent transition-colors"
+                      placeholder="Enter category slug"
                       required
                     />
                   </div>
 
                   <div>
-                    <label htmlFor="description" className="block text-sm font-medium text-foreground mb-1">
+                    <label htmlFor="description" className="block text-sm font-medium text-foreground mb-2">
                       Description
                     </label>
                     <textarea
                       id="description"
                       value={newCategory.description}
                       onChange={(e) => setNewCategory({...newCategory, description: e.target.value})}
-                      className="w-full px-3 py-2 border border-foreground/10 rounded-lg bg-background/50 text-foreground"
+                      className="w-full px-4 py-3 border border-foreground/20 rounded-xl bg-background/50 text-foreground focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent transition-colors resize-none"
+                      placeholder="Enter category description"
                       rows={3}
                     />
                   </div>
                 </div>
 
-                <div className="flex justify-end gap-3 mt-6">
+                <div className="flex justify-end gap-3 mt-8 pt-6 border-t border-foreground/10">
                   <button
                     type="button"
                     onClick={() => setShowCreateModal(false)}
-                    className="px-4 py-2 border border-foreground/10 rounded-lg text-foreground hover:bg-foreground/5 transition-colors"
+                    className="px-5 py-3 border border-foreground/20 rounded-xl text-foreground hover:bg-foreground/5 transition-colors font-medium"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="px-4 py-2 bg-accent text-background rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50"
+                    className="px-5 py-3 bg-accent text-background rounded-xl hover:opacity-90 transition-opacity disabled:opacity-50 font-medium shadow-lg hover:shadow-xl"
                   >
-                    {isSubmitting ? 'Creating...' : 'Create'}
+                    {isSubmitting ? 'Creating...' : 'Create Category'}
                   </button>
                 </div>
               </form>
@@ -438,15 +452,30 @@ export default function AdminCategoriesPage() {
 
       {/* Edit Category Modal */}
       {showEditModal && selectedCategory && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-          <div className="bg-background rounded-xl border border-foreground/10 w-full max-w-md">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+          <div className="bg-background rounded-2xl border border-foreground/20 w-full max-w-md shadow-xl transform transition-all">
             <div className="p-6">
-              <h2 className="text-xl font-semibold text-foreground mb-4">Edit Category</h2>
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-heading font-semibold text-foreground">Edit Category</h2>
+                <button
+                  onClick={() => {
+                    setShowEditModal(false);
+                    setSelectedCategory(null);
+                    setEditCategory({ name: '', slug: '', description: '' });
+                  }}
+                  className="w-8 h-8 rounded-full bg-foreground/5 hover:bg-foreground/10 flex items-center justify-center transition-colors"
+                  aria-label="Close"
+                >
+                  <svg className="w-5 h-5 text-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
 
               <form onSubmit={handleEditCategory}>
-                <div className="space-y-4">
+                <div className="space-y-5">
                   <div>
-                    <label htmlFor="edit-name" className="block text-sm font-medium text-foreground mb-1">
+                    <label htmlFor="edit-name" className="block text-sm font-medium text-foreground mb-2">
                       Name
                     </label>
                     <input
@@ -454,13 +483,14 @@ export default function AdminCategoriesPage() {
                       id="edit-name"
                       value={editCategory.name}
                       onChange={(e) => setEditCategory({...editCategory, name: e.target.value})}
-                      className="w-full px-3 py-2 border border-foreground/10 rounded-lg bg-background/50 text-foreground"
+                      className="w-full px-4 py-3 border border-foreground/20 rounded-xl bg-background/50 text-foreground focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent transition-colors"
+                      placeholder="Enter category name"
                       required
                     />
                   </div>
 
                   <div>
-                    <label htmlFor="edit-slug" className="block text-sm font-medium text-foreground mb-1">
+                    <label htmlFor="edit-slug" className="block text-sm font-medium text-foreground mb-2">
                       Slug
                     </label>
                     <input
@@ -468,26 +498,28 @@ export default function AdminCategoriesPage() {
                       id="edit-slug"
                       value={editCategory.slug}
                       onChange={(e) => setEditCategory({...editCategory, slug: e.target.value})}
-                      className="w-full px-3 py-2 border border-foreground/10 rounded-lg bg-background/50 text-foreground"
+                      className="w-full px-4 py-3 border border-foreground/20 rounded-xl bg-background/50 text-foreground focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent transition-colors"
+                      placeholder="Enter category slug"
                       required
                     />
                   </div>
 
                   <div>
-                    <label htmlFor="edit-description" className="block text-sm font-medium text-foreground mb-1">
+                    <label htmlFor="edit-description" className="block text-sm font-medium text-foreground mb-2">
                       Description
                     </label>
                     <textarea
                       id="edit-description"
                       value={editCategory.description}
                       onChange={(e) => setEditCategory({...editCategory, description: e.target.value})}
-                      className="w-full px-3 py-2 border border-foreground/10 rounded-lg bg-background/50 text-foreground"
+                      className="w-full px-4 py-3 border border-foreground/20 rounded-xl bg-background/50 text-foreground focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent transition-colors resize-none"
+                      placeholder="Enter category description"
                       rows={3}
                     />
                   </div>
                 </div>
 
-                <div className="flex justify-end gap-3 mt-6">
+                <div className="flex justify-end gap-3 mt-8 pt-6 border-t border-foreground/10">
                   <button
                     type="button"
                     onClick={() => {
@@ -495,16 +527,16 @@ export default function AdminCategoriesPage() {
                       setSelectedCategory(null);
                       setEditCategory({ name: '', slug: '', description: '' });
                     }}
-                    className="px-4 py-2 border border-foreground/10 rounded-lg text-foreground hover:bg-foreground/5 transition-colors"
+                    className="px-5 py-3 border border-foreground/20 rounded-xl text-foreground hover:bg-foreground/5 transition-colors font-medium"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="px-4 py-2 bg-accent text-background rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50"
+                    className="px-5 py-3 bg-accent text-background rounded-xl hover:opacity-90 transition-opacity disabled:opacity-50 font-medium shadow-lg hover:shadow-xl"
                   >
-                    {isSubmitting ? 'Updating...' : 'Update'}
+                    {isSubmitting ? 'Updating...' : 'Update Category'}
                   </button>
                 </div>
               </form>

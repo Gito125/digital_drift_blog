@@ -39,6 +39,12 @@ export default function AdminCommentsPage() {
 
   useEffect(() => {
     fetchComments();
+
+    // Set up polling to refresh comments every 30 seconds
+    const intervalId = setInterval(fetchComments, 30000);
+
+    // Clean up interval on component unmount
+    return () => clearInterval(intervalId);
   }, []);
 
   /* --------------------------- ACTIONS --------------------------- */
@@ -190,7 +196,7 @@ export default function AdminCommentsPage() {
                   <tr key={comment._id} className="align-top hover:bg-muted/5">
                     <td className="px-6 py-4 max-w-md">
                       <div className="font-medium text-foreground mb-1">
-                        By user {comment.userId}
+                        {comment.userName || `User ${comment.userId?.substring(0, 6)}`}
                       </div>
                       <p className="text-foreground break-words">
                         {comment.content}

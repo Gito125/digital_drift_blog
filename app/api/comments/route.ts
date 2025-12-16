@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
 import clientPromise from "@/lib/mongodb";
 import { Comment } from "@/models/Comment";
+import { User } from "@/models/User";
 import { ObjectId } from "mongodb";
 
 /**
@@ -52,6 +53,45 @@ export async function GET(request: NextRequest) {
 
     const comments = await collection.find(query).sort({ createdAt: -1 }).toArray();
 
+    // If there are comments, fetch user information for display
+    if (comments.length > 0) {
+      const client = await clientPromise;
+      const db = client.db();
+
+      // Extract unique user IDs from the comments
+      const userIds = [...new Set(comments.map(comment => comment.userId))].filter(id => id);
+
+      if (userIds.length > 0) {
+        // Fetch user details to get names
+        const users = await db.collection<User>('users').find(
+          { _id: { $in: userIds.map(id => new ObjectId(id)) } },
+          { projection: { name: 1, email: 1 } }
+        ).toArray();
+
+        // Create a map of user IDs to names
+        const userMap: Record<string, { name?: string, email?: string }> = {};
+        users.forEach(user => {
+          if (user._id) {
+            const idStr = user._id.toString();
+            userMap[idStr] = { name: user.name, email: user.email };
+          }
+        });
+
+        // Attach user names to comments
+        const commentsWithUsers = comments.map(comment => {
+          const user = userMap[comment.userId] || {};
+          const userName = user.name || user.email?.split('@')[0] || `User ${comment.userId?.substring(0, 6)}`;
+          return {
+            ...comment,
+            userName: userName
+          };
+        });
+
+        return NextResponse.json({ comments: commentsWithUsers });
+      }
+    }
+
+    // If there are no comments or no userIds to enhance, return as-is
     return NextResponse.json({ comments });
   } catch (error) {
     console.error("Failed to fetch comments:", error);

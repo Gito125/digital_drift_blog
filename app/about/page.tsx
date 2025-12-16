@@ -1,6 +1,12 @@
 import FooterSection from "@/components/main/FooterSection";
 import AnimatedGradientOrbs from "@/components/ui/AnimatedGradientOrbs";
 import GridPatternOverlay from "@/components/ui/GridPatternOverlay";
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: "About Digital Drift",
+  description: "Learn about Digital Drift's mission to explore the digital frontier. We are a community-focused blog dedicated to high-quality content on web development, technology, and design.",
+};
 
 const AboutPage = () => {
   return (

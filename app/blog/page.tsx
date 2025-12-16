@@ -1,6 +1,13 @@
 import FooterSection from "@/components/main/FooterSection";
 import { Post } from "@/models/Post";
 import Link from "next/link";
+import { formatNumber } from "@/lib/utils";
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: "Blog - The Latest from Digital Drift",
+  description: "Explore the latest articles, tutorials, and insights from Digital Drift. Stay updated on web development, tech trends, and our journey into the digital frontier.",
+};
 
 /**
  * Fetches published posts from the API
@@ -80,7 +87,7 @@ export default async function BlogPage(props: { searchParams: Promise<{ page?: s
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                   </svg>
-                  {post.viewCount} views
+                  {formatNumber(post.viewCount)} views
                 </span>
               </div>
             </article>

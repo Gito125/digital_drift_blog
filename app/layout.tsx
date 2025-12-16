@@ -51,8 +51,11 @@ export const emilio = Raleway({
 });
 
 export const metadata: Metadata = {
-  title: "Digital Drift - Exploring the Digital Frontier",
-  description: "A Next.js 16 blog platform exploring the digital frontier.",
+  title: {
+    default: "Digital Drift - Exploring the Digital Frontier",
+    template: "%s | Digital Drift",
+  },
+  description: "Dive into the digital frontier with Digital Drift, a modern blog exploring the latest in technology, software development, and the digital world. Join us on our journey of discovery.",
 };
 
 export default async function RootLayout({

@@ -132,7 +132,7 @@ export default function MobileMenu({ session, status, setDropdownOpen, setMobile
 
                   {session.user.role === 'admin' && (
                     <Link
-                      href="/admin"
+                      href="/admin/dashboard"
                       onClick={closeMobileMenu}
                       className="px-4 py-3 rounded-lg text-foreground hover:bg-accent/10 hover:text-accent transition-all font-medium flex items-center gap-2"
                     >

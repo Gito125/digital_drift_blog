@@ -14,7 +14,10 @@ interface CommentSectionProps {
  */
 export default function CommentSection({ postId }: CommentSectionProps) {
   const { data: session } = useSession();
-  const [comments, setComments] = useState<Comment[]>([]);
+
+  // Define an extended comment type that includes userName
+  type CommentWithUser = Comment & { userName?: string };
+  const [comments, setComments] = useState<CommentWithUser[]>([]);
   const [newComment, setNewComment] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -22,11 +25,14 @@ export default function CommentSection({ postId }: CommentSectionProps) {
 
   useEffect(() => {
     const fetchComments = async () => {
+      setLoading(true);
       try {
-        setLoading(true);
         setError(null);
         const res = await fetch(`/api/comments?postId=${postId}`);
-        if (!res.ok) throw new Error('Failed to load comments.');
+        if (!res.ok) {
+          const errorData = await res.json();
+          throw new Error(errorData.error || 'Failed to load comments.');
+        }
         const data = await res.json();
 
         // Show all comments if user is logged in (including their own unapproved comments)
@@ -35,7 +41,7 @@ export default function CommentSection({ postId }: CommentSectionProps) {
           setComments(data.comments);
         } else {
           // Only show approved comments if user is not logged in
-          setComments(data.comments.filter((comment: Comment) => comment.approved));
+          setComments(data.comments.filter((comment: CommentWithUser) => comment.approved));
         }
       } catch (err: unknown) {
         setError(err instanceof Error ? err.message : "Failed to load comments");
@@ -43,7 +49,14 @@ export default function CommentSection({ postId }: CommentSectionProps) {
         setLoading(false);
       }
     };
+
     fetchComments();
+
+    // Set up polling to refresh comments every 30 seconds
+    const intervalId = setInterval(fetchComments, 30000);
+
+    // Clean up interval on component unmount
+    return () => clearInterval(intervalId);
   }, [postId, session?.user?.id]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -85,7 +98,7 @@ export default function CommentSection({ postId }: CommentSectionProps) {
           setComments(updatedData.comments);
         } else {
           // Only show approved comments if user is not logged in
-          setComments(updatedData.comments.filter((comment: Comment) => comment.approved));
+          setComments(updatedData.comments.filter((comment: CommentWithUser) => comment.approved));
         }
       }
     } catch (err: unknown) {
@@ -145,47 +158,54 @@ export default function CommentSection({ postId }: CommentSectionProps) {
         {loading ? (
           <p className="text-muted">Loading comments...</p>
         ) : comments.length > 0 ? (
-          comments.map((comment) => (
-            <div key={comment._id} className={`p-4 border border-border rounded-lg ${!comment.approved ? 'opacity-70 bg-muted/20' : ''}`}>
-              <div className="flex items-start gap-3">
-                <div className="flex-shrink-0 w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center">
-                  <span className="text-accent font-semibold text-sm">
-                    {comment.userId?.charAt(0).toUpperCase() || 'U'}
-                  </span>
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-1">
-                    <p className="font-medium text-foreground">
-                      {session?.user?.id === comment.userId ? 'You' : `User ${comment.userId?.substring(0, 6)}`}
-                    </p>
-                    {!comment.approved && (
-                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-500/15 text-amber-600 dark:text-amber-400">
-                        Pending
-                      </span>
-                    )}
+          comments.map((comment) => {
+            const firstName = comment.userName ? comment.userName.split(' ')[0] : `User ${comment.userId?.substring(0, 6)}`;
+            const initial = firstName ? firstName.charAt(0).toUpperCase() : 'U';
+
+            return (
+              <div key={comment._id} className={`p-4 border border-border rounded-lg ${!comment.approved ? 'opacity-70 bg-muted/20' : ''}`}>
+                <div className="flex items-start gap-3">
+                  <div className="flex-shrink-0 w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center">
+                    <span className="text-accent font-semibold text-sm">
+                      {initial}
+                    </span>
                   </div>
-                  <p className="text-foreground/80 mb-2">{comment.content}</p>
-                  <p className="text-xs text-foreground/60">
-                    {typeof comment.createdAt === 'string' ?
-                      new Date(comment.createdAt).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'short',
-                        day: 'numeric',
-                        hour: '2-digit',
-                        minute: '2-digit'
-                      }) :
-                      comment.createdAt.toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'short',
-                        day: 'numeric',
-                        hour: '2-digit',
-                        minute: '2-digit'
-                      })}
-                  </p>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1">
+                      <p className="font-medium text-foreground">
+                        {session?.user?.id === comment.userId
+                          ? 'You'
+                          : firstName}
+                      </p>
+                      {!comment.approved && (
+                        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-500/15 text-amber-600 dark:text-amber-400">
+                          Pending
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-foreground/80 mb-2">{comment.content}</p>
+                    <p className="text-xs text-foreground/60">
+                      {typeof comment.createdAt === 'string' ?
+                        new Date(comment.createdAt).toLocaleDateString('en-US', {
+                          year: 'numeric',
+                          month: 'short',
+                          day: 'numeric',
+                          hour: '2-digit',
+                          minute: '2-digit'
+                        }) :
+                        comment.createdAt.toLocaleDateString('en-US', {
+                          year: 'numeric',
+                          month: 'short',
+                          day: 'numeric',
+                          hour: '2-digit',
+                          minute: '2-digit'
+                        })}
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))
+            );
+          })
         ) : (
           <p className="text-foreground/60">No comments yet. Be the first to comment!</p>
         )}

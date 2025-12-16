@@ -1,6 +1,12 @@
 import FooterSection from "@/components/main/FooterSection";
 import AnimatedGradientOrbs from "@/components/ui/AnimatedGradientOrbs";
 import GridPatternOverlay from "@/components/ui/GridPatternOverlay";
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: "Privacy Policy",
+  description: "Read the Digital Drift privacy policy. We are committed to protecting your personal information and being transparent about the data we collect.",
+};
 
 const PrivacyPage = () => {
   return (

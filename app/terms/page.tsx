@@ -1,6 +1,12 @@
 import FooterSection from "@/components/main/FooterSection";
 import AnimatedGradientOrbs from "@/components/ui/AnimatedGradientOrbs";
 import GridPatternOverlay from "@/components/ui/GridPatternOverlay";
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: "Terms of Service",
+  description: "Review the Terms of Service for Digital Drift. Understand the rules and guidelines for using our website and community.",
+};
 
 const TermsPage = () => {
   return (
