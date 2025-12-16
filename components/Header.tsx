@@ -63,7 +63,7 @@ export default function Header() {
                     <div className="absolute right-0 mt-2 w-48 bg-background border border-foreground/10 rounded-xl shadow-xl py-1 z-50 animate-fadeIn">
                       {session.user.role === 'admin' && (
                         <Link
-                          href="/admin"
+                          href="/admin/dashboard"
                           className="block px-4 py-3 text-sm text-foreground hover:bg-accent/10 hover:text-accent border-b border-foreground/10 transition-colors font-medium"
                           onClick={() => setDropdownOpen(false)}
                         >
@@ -80,12 +80,20 @@ export default function Header() {
                   )}
                 </div>
               ) : (
+                <>
+                  <Link
+                    href="/login"
+                    className="font-body text-foreground hover:text-accent transition-colors font-medium"
+                  >
+                    Login
+                  </Link>
                   <Link
                     href="/signup"
                     className="px-4 py-2 bg-accent text-white rounded-lg hover:opacity-90 transition-all font-medium shadow-md"
                   >
                     Sign Up
                   </Link>
+                </>
               )}
 
               <ThemeToggle />

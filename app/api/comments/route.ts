@@ -7,10 +7,11 @@ import { ObjectId } from "mongodb";
 
 /**
  * GET /api/comments
- * Fetches all approved comments for a given post
- * 
+ * Fetches comments - either all comments (for admin) or comments for a specific post
+ *
  * Query params:
- * - postId: string (required)
+ * - postId: string (required for non-admins, optional for admin)
+ * - filter: string ("all", optional - admin only)
  */
 export async function GET(request: NextRequest) {
   try {
@@ -22,15 +23,15 @@ export async function GET(request: NextRequest) {
     const client = await clientPromise;
     const db = client.db();
     const collection = db.collection<Comment>('comments');
-    
+
     let query: any = {};
 
     // @ts-ignore
     if (session?.user?.role === 'admin' && filter === 'all') {
-      // Admin can fetch all comments
-      query = { postId: postId };
+      // Admin can fetch all comments (no postId required for this case)
+      query = {};
     } else if (session?.user?.id) {
-      // Authenticated users can see their own comments and approved comments
+      // Authenticated users can see their own comments and approved comments for a specific post
       if (!postId || !ObjectId.isValid(postId)) {
         return NextResponse.json({ error: "Invalid postId" }, { status: 400 });
       }
@@ -42,7 +43,7 @@ export async function GET(request: NextRequest) {
         ]
       };
     } else {
-      // Non-authenticated users can only see approved comments
+      // Non-authenticated users can only see approved comments for a specific post
       if (!postId || !ObjectId.isValid(postId)) {
         return NextResponse.json({ error: "Invalid postId" }, { status: 400 });
       }

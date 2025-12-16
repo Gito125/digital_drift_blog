@@ -8,14 +8,14 @@ import { ObjectId } from "mongodb";
  * PUT /api/comments/{id}
  * Updates a comment's approval status (admin only)
  */
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const session = await getServerSession(authOptions);
     if (!session || session.user?.role !== "admin") {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { id } = params;
+    const { id } = await params;
     if (!ObjectId.isValid(id)) {
       return NextResponse.json({ error: "Invalid comment ID" }, { status: 400 });
     }
@@ -29,7 +29,7 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
 
     const client = await clientPromise;
     const db = client.db();
-    
+
     const result = await db.collection('comments').updateOne(
       { _id: new ObjectId(id) },
       { $set: { approved } }
@@ -41,7 +41,7 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
 
     return NextResponse.json({ message: "Comment updated successfully" });
   } catch (error) {
-    console.error(`Failed to update comment ${params.id}:`, error);
+    console.error(`Failed to update comment ${await (await params).id}:`, error);
     return NextResponse.json({ error: "Failed to update comment" }, { status: 500 });
   }
 }
@@ -50,14 +50,14 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
  * DELETE /api/comments/{id}
  * Deletes a comment (admin only)
  */
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const session = await getServerSession(authOptions);
     if (!session || session.user?.role !== "admin") {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { id } = params;
+    const { id } = await params;
     if (!ObjectId.isValid(id)) {
       return NextResponse.json({ error: "Invalid comment ID" }, { status: 400 });
     }
@@ -72,7 +72,7 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
 
     return NextResponse.json({ message: "Comment deleted successfully" }, { status: 200 });
   } catch (error) {
-    console.error(`Failed to delete comment ${params.id}:`, error);
+    console.error(`Failed to delete comment ${await (await params).id}:`, error);
     return NextResponse.json({ error: "Failed to delete comment" }, { status: 500 });
   }
 }

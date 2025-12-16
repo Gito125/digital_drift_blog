@@ -18,11 +18,13 @@ export default function CommentSection({ postId }: CommentSectionProps) {
   const [newComment, setNewComment] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchComments = async () => {
       try {
         setLoading(true);
+        setError(null);
         const res = await fetch(`/api/comments?postId=${postId}`);
         if (!res.ok) throw new Error('Failed to load comments.');
         const data = await res.json();
@@ -49,10 +51,15 @@ export default function CommentSection({ postId }: CommentSectionProps) {
     if (!newComment.trim()) return;
 
     try {
+      // Add user ID to the comment
       const res = await fetch('/api/comments', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ postId, content: newComment }),
+        body: JSON.stringify({
+          postId,
+          content: newComment,
+          userId: session?.user?.id
+        }),
       });
 
       if (!res.ok) {
@@ -61,10 +68,26 @@ export default function CommentSection({ postId }: CommentSectionProps) {
       }
 
       const data = await res.json();
-      // Since new comments are not approved by default, we don't add them to the list.
-      // We can show a message to the user instead.
+      // Clear the form and show success message
       setNewComment('');
-      alert('Your comment has been submitted for moderation.');
+      setSuccess('Your comment has been submitted for moderation.');
+      // Clear success message after 3 seconds
+      setTimeout(() => setSuccess(null), 3000);
+      // Refetch comments to show the new one (if the user is the author)
+      // We need to refetch with the same logic as the initial fetch
+      const updatedRes = await fetch(`/api/comments?postId=${postId}`);
+      if (updatedRes.ok) {
+        const updatedData = await updatedRes.json();
+
+        // Show all comments if user is logged in (including their own unapproved comments)
+        // Only show approved comments if user is not logged in
+        if (session?.user?.id) {
+          setComments(updatedData.comments);
+        } else {
+          // Only show approved comments if user is not logged in
+          setComments(updatedData.comments.filter((comment: Comment) => comment.approved));
+        }
+      }
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Failed to post comment");
     }
@@ -76,8 +99,12 @@ export default function CommentSection({ postId }: CommentSectionProps) {
       {session ? (
         <form onSubmit={handleSubmit} className="mb-8">
           <div className="mb-4">
+            <label htmlFor="comment" className="block text-sm font-medium mb-2">
+              Add a comment
+            </label>
             <textarea
-              className="w-full p-3 border rounded-lg bg-white dark:bg-gray-700 focus:ring-2 focus:ring-accent focus:border-transparent"
+              id="comment"
+              className="w-full p-3 border border-border bg-background rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent min-h-[100px]"
               rows={4}
               value={newComment}
               onChange={(e) => setNewComment(e.target.value)}
@@ -87,45 +114,80 @@ export default function CommentSection({ postId }: CommentSectionProps) {
           </div>
           <button
             type="submit"
-            className="px-6 py-2 bg-accent text-white rounded-lg hover:opacity-90 transition-opacity"
+            className="px-6 py-2 bg-accent text-white rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50"
+            disabled={!newComment.trim()}
           >
             Post Comment
           </button>
         </form>
       ) : (
-        <div className="mb-8 p-4 bg-accent/80 rounded-lg text-center text-white">
-          <p className="mb-2">Please log in to leave a comment</p>
-          <a href="/login" className="inline-block px-4 py-2 bg-accent text-white rounded-lg hover:opacity-90 transition-opacity">
+        <div className="mb-8 p-4 bg-accent/80 rounded-lg text-center">
+          <p className="mb-2 text-white">Please log in to leave a comment</p>
+          <a href="/login" className="inline-block px-4 py-2 bg-white text-accent rounded-lg hover:bg-gray-100 transition-colors">
             Log In
           </a>
         </div>
       )}
 
-      {loading && <p>Loading comments...</p>}
-      {error && <p className="text-red-500">{error}</p>}
-      
+      {success && (
+        <div className="mb-4 p-3 bg-emerald-500/10 border border-emerald-500/30 text-emerald-700 dark:text-emerald-300 rounded-lg">
+          {success}
+        </div>
+      )}
+
+      {error && (
+        <div className="mb-4 p-3 bg-destructive/10 border border-destructive/30 text-destructive dark:text-destructive-foreground rounded-lg">
+          {error}
+        </div>
+      )}
+
       <div className="space-y-4">
-        {comments.length > 0 ? (
+        {loading ? (
+          <p className="text-muted">Loading comments...</p>
+        ) : comments.length > 0 ? (
           comments.map((comment) => (
-            <div key={comment._id} className={`p-4 border rounded-lg ${!comment.approved ? 'opacity-70 bg-gray-50 dark:bg-gray-700/30' : ''}`}>
-              <p>{comment.content}</p>
-              <div className="flex justify-between items-center mt-2">
-                <p className="text-sm text-text/60">
-                  {/* We need user data to show name, for now it's just the date */}
-                  Posted on {typeof comment.createdAt === 'string' ?
-                    new Date(comment.createdAt).toLocaleDateString() :
-                    comment.createdAt.toLocaleDateString()}
-                </p>
-                {!comment.approved && (
-                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-200">
-                    Pending
+            <div key={comment._id} className={`p-4 border border-border rounded-lg ${!comment.approved ? 'opacity-70 bg-muted/20' : ''}`}>
+              <div className="flex items-start gap-3">
+                <div className="flex-shrink-0 w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center">
+                  <span className="text-accent font-semibold text-sm">
+                    {comment.userId?.charAt(0).toUpperCase() || 'U'}
                   </span>
-                )}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-1">
+                    <p className="font-medium text-foreground">
+                      {session?.user?.id === comment.userId ? 'You' : `User ${comment.userId?.substring(0, 6)}`}
+                    </p>
+                    {!comment.approved && (
+                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-500/15 text-amber-600 dark:text-amber-400">
+                        Pending
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-foreground/80 mb-2">{comment.content}</p>
+                  <p className="text-xs text-foreground/60">
+                    {typeof comment.createdAt === 'string' ?
+                      new Date(comment.createdAt).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                      }) :
+                      comment.createdAt.toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                      })}
+                  </p>
+                </div>
               </div>
             </div>
           ))
         ) : (
-          !loading && <p>No comments yet. Be the first to comment!</p>
+          <p className="text-foreground/60">No comments yet. Be the first to comment!</p>
         )}
       </div>
     </div>
