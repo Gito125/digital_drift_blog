@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Category } from "@/models/Category";
+import CreateCategoryModel from "@/components/ui/CreateCategoryModel";
 
 type CategoryWithStatus = Category & { status: 'active' | 'inactive' };
 
@@ -364,91 +365,8 @@ export default function AdminCategoriesPage() {
       </div>
 
       {/* Create Category Modal */}
-      {showCreateModal && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-          <div className="bg-background rounded-2xl border border-foreground/20 w-full max-w-md shadow-xl transform transition-all">
-            <div className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-heading font-semibold text-foreground">Create New Category</h2>
-                <button
-                  onClick={() => setShowCreateModal(false)}
-                  className="w-8 h-8 rounded-full bg-foreground/5 hover:bg-foreground/10 flex items-center justify-center transition-colors"
-                  aria-label="Close"
-                >
-                  <svg className="w-5 h-5 text-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-              </div>
+      <CreateCategoryModel showCreateModal={showCreateModal} setShowCreateModal={setShowCreateModal} handleCreateCategory={handleCreateCategory} newCategory={newCategory} setNewCategory={setNewCategory} isSubmitting={isSubmitting} />
 
-              <form onSubmit={handleCreateCategory}>
-                <div className="space-y-5">
-                  <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
-                      Name
-                    </label>
-                    <input
-                      type="text"
-                      id="name"
-                      value={newCategory.name}
-                      onChange={(e) => setNewCategory({...newCategory, name: e.target.value})}
-                      className="w-full px-4 py-3 border border-foreground/20 rounded-xl bg-background/50 text-foreground focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent transition-colors"
-                      placeholder="Enter category name"
-                      required
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="slug" className="block text-sm font-medium text-foreground mb-2">
-                      Slug
-                    </label>
-                    <input
-                      type="text"
-                      id="slug"
-                      value={newCategory.slug}
-                      onChange={(e) => setNewCategory({...newCategory, slug: e.target.value})}
-                      className="w-full px-4 py-3 border border-foreground/20 rounded-xl bg-background/50 text-foreground focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent transition-colors"
-                      placeholder="Enter category slug"
-                      required
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="description" className="block text-sm font-medium text-foreground mb-2">
-                      Description
-                    </label>
-                    <textarea
-                      id="description"
-                      value={newCategory.description}
-                      onChange={(e) => setNewCategory({...newCategory, description: e.target.value})}
-                      className="w-full px-4 py-3 border border-foreground/20 rounded-xl bg-background/50 text-foreground focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent transition-colors resize-none"
-                      placeholder="Enter category description"
-                      rows={3}
-                    />
-                  </div>
-                </div>
-
-                <div className="flex justify-end gap-3 mt-8 pt-6 border-t border-foreground/10">
-                  <button
-                    type="button"
-                    onClick={() => setShowCreateModal(false)}
-                    className="px-5 py-3 border border-foreground/20 rounded-xl text-foreground hover:bg-foreground/5 transition-colors font-medium"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="px-5 py-3 bg-accent text-background rounded-xl hover:opacity-90 transition-opacity disabled:opacity-50 font-medium shadow-lg hover:shadow-xl"
-                  >
-                    {isSubmitting ? 'Creating...' : 'Create Category'}
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Edit Category Modal */}
       {showEditModal && selectedCategory && (

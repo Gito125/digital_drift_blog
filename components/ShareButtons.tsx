@@ -9,7 +9,9 @@ import {
   TwitterIcon,
   LinkedinIcon,
   WhatsappIcon,
-} from 'react-share';
+  } from 'react-share';
+import { XIcon } from './XIcon';
+import { X } from 'lucide-react';
 
 interface ShareButtonsProps {
   title: string;
@@ -28,9 +30,9 @@ export default function ShareButtons({ title, slug }: ShareButtonsProps) {
     <div className="flex items-center space-x-4 mt-8">
       <span className="text-text/80">Share this post:</span>
       <TwitterShareButton url={shareUrl} title={title}>
-        <TwitterIcon size={32} round />
+        <XIcon size={25} />
       </TwitterShareButton>
-      <FacebookShareButton url={shareUrl} quote={title}>
+      <FacebookShareButton url={shareUrl} title={title}>
         <FacebookIcon size={32} round />
       </FacebookShareButton>
       <LinkedinShareButton url={shareUrl} title={title}>

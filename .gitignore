@@ -50,3 +50,6 @@ next-env.d.ts
 # AI files
 /output/
 /.ai/
+
+# Admin files
+ADMIN_LOGIN_GUIDE.md

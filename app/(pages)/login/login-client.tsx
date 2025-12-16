@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import SocialLogins from '@/components/SocialLogins';
+import Logo from '@/components/ui/Logo';
 
 export default function LoginClient() {
   const [email, setEmail] = useState('');
@@ -57,9 +59,7 @@ export default function LoginClient() {
         <div className="bg-background/80 backdrop-blur-xl rounded-2xl shadow-2xl border border-foreground/10 p-8 md:p-10 transform transition-all duration-300 hover:shadow-accent/10">
           {/* Header */}
           <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-accent/10 rounded-2xl mb-4">
-              <span className="text-3xl">🔐</span>
-            </div>
+            <Logo/>
             <h1 className="text-3xl md:text-4xl font-heading font-bold text-foreground mb-2">
               Welcome Back
             </h1>
@@ -102,7 +102,7 @@ export default function LoginClient() {
             </div>
 
             {/* Password field */}
-            <div className="space-y-2">
+            <div className="space-y-1">
               <label 
                 htmlFor="password" 
                 className="block text-sm font-semibold text-foreground/90"
@@ -157,44 +157,29 @@ export default function LoginClient() {
                   <span>Signing in...</span>
                 </>
               ) : (
-                <>
-                  <span>Sign In</span>
+                <div className='text-white'>
+                  <span>Sign In </span>
                   <span className="transform group-hover:translate-x-1 transition-transform duration-200">→</span>
-                </>
+                </div>
               )}
             </button>
           </form>
 
           {/* Divider */}
-          <div className="relative my-8">
+          {/* <div className="relative my-8">
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-foreground/10"></div>
             </div>
             <div className="relative flex justify-center text-sm">
               <span className="px-4 bg-background/80 text-foreground/60">or continue with</span>
             </div>
-          </div>
+          </div> */}
 
           {/* Social login options */}
-          <div className="grid grid-cols-2 gap-4">
-            <button
-              type="button"
-              className="flex items-center justify-center gap-2 px-4 py-3 border border-foreground/20 rounded-xl bg-background/50 hover:bg-foreground/5 transition-all duration-200 group"
-            >
-              <span className="text-xl">🌐</span>
-              <span className="text-sm font-medium text-foreground">Google</span>
-            </button>
-            <button
-              type="button"
-              className="flex items-center justify-center gap-2 px-4 py-3 border border-foreground/20 rounded-xl bg-background/50 hover:bg-foreground/5 transition-all duration-200 group"
-            >
-              <span className="text-xl">💼</span>
-              <span className="text-sm font-medium text-foreground">GitHub</span>
-            </button>
-          </div>
+          {/* <SocialLogins /> */}
 
           {/* Sign up link */}
-          <p className="mt-8 text-center text-sm text-foreground/70">
+          <p className="mt-2 text-center text-sm text-foreground/70">
             Don't have an account?{' '}
             <Link 
               href="/signup" 
