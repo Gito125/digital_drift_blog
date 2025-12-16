@@ -15,8 +15,8 @@ const HeroSection = ({ session }: HeroSectionProps) => {
         </div>
 
         <div className="container mx-auto px-4 text-center relative z-10">
-          <h1 className="text-4xl md:text-6xl font-heading font-bold mb-6 text-text-light dark:text-text-dark">
-            Exploring the Digital Frontier
+          <h1 className="text-4xl md:text-6xl font-azurio font-bold mb-6 text-text-light dark:text-text-dark">
+           or Expling the Digital Frontier
           </h1>
           <p className="text-xl text-text/80 dark:text-text/90 max-w-2xl mx-auto mb-10">
             Digital Drift is a Next.js 16 blog platform where we explore cutting-edge technology,
