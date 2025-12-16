@@ -18,7 +18,7 @@ dotenv.config({ path: envPath });
 console.log('MONGODB_URI after loading .env.local:', process.env.MONGODB_URI ? 'Found' : 'NOT FOUND');
 
 async function seedTags() {
-  let client;
+  let client: MongoClient | null = null;
 
   try {
     console.log('Starting tags seeding...');
@@ -49,8 +49,10 @@ async function seedTags() {
     console.error('Error during tags seeding:', error);
     throw error;
   } finally {
-    await client.close();
-    console.log("MongoDB connection closed");
+    if (client) {
+      await client.close();
+      console.log("MongoDB connection closed");
+    }
   }
 }
 

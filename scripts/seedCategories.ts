@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
-import { MongoClient, ObjectId } from "mongodb";
+import { MongoClient } from "mongodb";
 import { existsSync } from "fs";
 import Categories from "./dataToSeed/categories";
 
@@ -21,7 +21,7 @@ console.log(
 );
 
 async function seedCategories() {
-  let client;
+  let client: MongoClient | null = null;
 
   try {
     console.log("Starting categories seeding...");
@@ -55,8 +55,10 @@ async function seedCategories() {
     console.error("Error during categories seeding:", error);
     throw error;
   } finally {
-    await client.close();
-    console.log("MongoDB connection closed");
+    if (client) {
+      await client.close();
+      console.log("MongoDB connection closed");
+    }
   }
 }
 

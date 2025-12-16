@@ -29,7 +29,7 @@ async function seedBlogPosts() {
     throw new Error('Invalid/Missing environment variable: "MONGODB_URI"');
   }
 
-  const client = new MongoClient(process.env.MONGODB_URI);
+  const client: MongoClient | null = new MongoClient(process.env.MONGODB_URI);
 
   try {
     await client.connect();
@@ -55,8 +55,10 @@ async function seedBlogPosts() {
   } catch (error) {
     console.error("Error seeding database:", error);
   } finally {
-    await client.close();
-    console.log("MongoDB connection closed");
+    if (client) {
+      await client.close();
+      console.log("MongoDB connection closed");
+    }
   }
 }
 

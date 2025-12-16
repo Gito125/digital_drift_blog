@@ -18,7 +18,7 @@ dotenv.config({ path: envPath });
 console.log('MONGODB_URI after loading .env.local:', process.env.MONGODB_URI ? 'Found' : 'NOT FOUND');
 
 async function seedComments() {
-  let client;
+  let client: MongoClient | null = null;
 
   try {
     console.log('Starting comments seeding...');
@@ -49,8 +49,10 @@ async function seedComments() {
     console.error('Error during comments seeding:', error);
     throw error;
   } finally {
-    await client.close();
-    console.log("MongoDB connection closed");
+    if (client) {
+      await client.close();
+      console.log("MongoDB connection closed");
+    }
   }
 }
 
