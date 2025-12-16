@@ -79,7 +79,7 @@ export default function AdminCategoriesPage() {
     setIsSubmitting(true);
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/categories/${selectedCategory._id}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/categories/${selectedCategory._id.toString()}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(editCategory)
@@ -92,7 +92,7 @@ export default function AdminCategoriesPage() {
 
       // Update category in the UI
       setCategories(categories.map(cat =>
-        cat._id === selectedCategory._id
+        cat._id.toString() === selectedCategory._id.toString()
           ? { ...cat, ...editCategory, status: 'active' as const }
           : cat
       ));
@@ -124,7 +124,7 @@ export default function AdminCategoriesPage() {
         throw new Error(errorData.error || "Failed to delete category");
       }
 
-      setCategories(categories.filter(cat => cat._id !== id));
+      setCategories(categories.filter(cat => cat._id.toString() !== id));
       alert("Category deleted successfully!");
     } catch (err) {
       console.error("Failed to delete category:", err);
@@ -290,7 +290,7 @@ export default function AdminCategoriesPage() {
                 </tr>
               ) : (
                 categories.map((category) => (
-                  <tr key={category._id} className="hover:bg-foreground/5 transition-colors">
+                  <tr key={category._id.toString()} className="hover:bg-foreground/5 transition-colors">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 bg-accent/10 rounded-lg flex items-center justify-center">
@@ -330,7 +330,7 @@ export default function AdminCategoriesPage() {
                         </button>
                         <button
                           className="p-2 rounded-lg hover:bg-red-500/10 text-red-600 dark:text-red-400 transition-colors group"
-                          onClick={() => handleDeleteCategory(category._id)}
+                          onClick={() => handleDeleteCategory(category._id.toString())}
                           title="Delete category"
                         >
                           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

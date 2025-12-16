@@ -56,7 +56,7 @@ export default function AdminPostsPage() {
       }
 
       // Remove the deleted post from the UI
-      setPosts(posts.filter(post => post._id !== id));
+      setPosts(posts.filter(post => post._id.toString() !== id));
       alert("Post deleted successfully");
     } catch (error) {
       console.error("Failed to delete post:", error);
@@ -118,7 +118,7 @@ export default function AdminPostsPage() {
 
             <tbody className="divide-y divide-border">
               {posts.map((post) => (
-                <tr key={post._id}>
+                <tr key={post._id.toString()}>
                   <td className="px-6 py-4 font-medium">
                     {post.title}
                   </td>
@@ -145,7 +145,7 @@ export default function AdminPostsPage() {
 
                   <td className="px-6 py-4 whitespace-nowrap text-right space-x-4">
                     <Link
-                      href={`/admin/posts/${post._id}/edit`}
+                      href={`/admin/posts/${post._id.toString()}/edit`}
                       className="text-primary hover:underline"
                     >
                       Edit
@@ -153,7 +153,7 @@ export default function AdminPostsPage() {
 
                     <button
                       className="text-destructive hover:underline"
-                      onClick={() => deletePost(post._id)}
+                      onClick={() => deletePost(post._id.toString())}
                       title="Delete this post"
                     >
                       Delete

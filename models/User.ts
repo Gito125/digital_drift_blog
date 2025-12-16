@@ -1,8 +1,10 @@
+import { ObjectId } from "mongodb";
+
 /**
  * TypeScript interface for the User model
  */
 export interface User {
-  _id: string;
+  _id: ObjectId;
   name: string;
   email: string;
   password?: string; // Password hash

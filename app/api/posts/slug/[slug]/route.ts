@@ -7,9 +7,9 @@ import { ObjectId } from "mongodb";
  * GET /api/posts/slug/{slug}
  * Fetches a single published post by its slug and increments view count
  */
-export async function GET(request: NextRequest, { params }: { params: { slug: string } }) {
+export async function GET(request: NextRequest, context: { params: Promise<{ slug: string }> }) {
   try {
-    const { slug } = await params;
+    const { slug } = await context.params;
 
     const client = await clientPromise;
     const db = client.db();
@@ -29,7 +29,7 @@ export async function GET(request: NextRequest, { params }: { params: { slug: st
 
     return NextResponse.json({ post });
   } catch (error) {
-    console.error(`Failed to fetch post ${params.slug}:`, error);
+    console.error(`Failed to fetch post ${await context.params.then(p => p.slug)}:`, error);
     return NextResponse.json(
       { error: "Failed to fetch post" },
       { status: 500 }

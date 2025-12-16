@@ -1,9 +1,11 @@
+import { ObjectId } from "mongodb";
+
 /**
  * TypeScript interface for the Post model
  * Note: When received from the API, Date fields are strings but are converted to Date objects when needed.
  */
 export interface Post {
-  _id: string;
+  _id: ObjectId;
   title: string;
   slug: string;
   content: string; // Markdown

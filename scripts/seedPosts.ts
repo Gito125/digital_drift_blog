@@ -3,7 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { MongoClient } from "mongodb";
 import { existsSync } from 'fs';
-import posts from './posts'
+import posts from './dataToSeed/posts'
 
 // Load environment variables from .env.local
 const __filename = fileURLToPath(import.meta.url);

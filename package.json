@@ -7,9 +7,12 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "seed-posts": "tsx scripts/seed-posts.ts",
-    "seed-admin": "tsx scripts/seed-admin.ts",
-    "seed-all": "tsx scripts/seed-posts.ts && tsx scripts/seed-admin.ts"
+    "seed-posts": "tsx scripts/seedPosts.ts",
+    "seed-admin": "tsx scripts/seedAdmin.ts",
+    "seed-categories": "tsx scripts/seedCategories.ts",
+    "seed-tags": "tsx scripts/seedTags.ts",
+    "seed-comments": "tsx scripts/seedComments.ts",
+    "seed-all": "tsx scripts/seedPosts.ts && tsx scripts/seedAdmin.ts && tsx scripts/seedCategories.ts && tsx scripts/seedTags.ts && tsx scripts/seedComments.ts"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",

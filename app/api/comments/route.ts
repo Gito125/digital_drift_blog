@@ -13,12 +13,14 @@ import { ObjectId } from "mongodb";
  * Query params:
  * - postId: string (required for non-admins, optional for admin)
  * - filter: string ("all", optional - admin only)
+ * - count: string ("true", optional - returns count only)
  */
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const postId = searchParams.get("postId");
     const filter = searchParams.get("filter");
+    const countOnly = searchParams.get("count") === "true";
 
     const session = await getServerSession(authOptions);
     const client = await clientPromise;
@@ -34,7 +36,12 @@ export async function GET(request: NextRequest) {
     } else if (session?.user?.id) {
       // Authenticated users can see their own comments and approved comments for a specific post
       if (!postId || !ObjectId.isValid(postId)) {
-        return NextResponse.json({ error: "Invalid postId" }, { status: 400 });
+        if (!countOnly) { // Only return error if not just counting
+          return NextResponse.json({ error: "Invalid postId" }, { status: 400 });
+        } else {
+          // For count only, we might want to return 0 rather than an error
+          return NextResponse.json({ count: 0 });
+        }
       }
       query = {
         postId: postId,
@@ -46,9 +53,19 @@ export async function GET(request: NextRequest) {
     } else {
       // Non-authenticated users can only see approved comments for a specific post
       if (!postId || !ObjectId.isValid(postId)) {
-        return NextResponse.json({ error: "Invalid postId" }, { status: 400 });
+        if (!countOnly) { // Only return error if not just counting
+          return NextResponse.json({ error: "Invalid postId" }, { status: 400 });
+        } else {
+          // For count only, we might want to return 0 rather than an error
+          return NextResponse.json({ count: 0 });
+        }
       }
       query = { postId: postId, approved: true };
+    }
+
+    if (countOnly) {
+      const count = await collection.countDocuments(query);
+      return NextResponse.json({ count });
     }
 
     const comments = await collection.find(query).sort({ createdAt: -1 }).toArray();

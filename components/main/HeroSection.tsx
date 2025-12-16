@@ -4,6 +4,7 @@ import GridPatternOverlay from "@/components/ui/GridPatternOverlay"
 import PulsingBadge from "@/components/ui/PulsingBadge"
 import CTA_Button_Dark from "../ui/CTA_Button_Dark"
 import CTA_Button_Light from "../ui/CTA_Button_Light"
+import HeroStats from "../ui/HeroStats"
 
 interface HeroSectionProps {
   session: Session | null
@@ -46,24 +47,8 @@ const HeroSection = ({ session }: HeroSectionProps) => {
           )}
         </div>
 
-        {/* Stats - Redesigned */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 max-w-5xl mx-auto">
-          {[
-            { num: "50+", label: "Articles", icon: "📝" },
-            { num: "10K+", label: "Readers", icon: "👥" },
-            { num: "15+", label: "Topics", icon: "🎯" },
-            { num: "5+", label: "Contributors", icon: "✨" },
-          ].map((stat, i) => (
-            <div
-              key={i}
-              className="group p-6 bg-background/60 backdrop-blur-md border border-foreground/10 rounded-2xl hover:border-accent/50 hover:bg-background/80 transition-all duration-300 hover:scale-105"
-            >
-              <div className="text-3xl mb-2 group-hover:scale-110 transition-transform">{stat.icon}</div>
-              <div className="text-3xl md:text-4xl font-bold text-accent mb-1">{stat.num}</div>
-              <div className="text-sm text-foreground/60 font-medium">{stat.label}</div>
-            </div>
-          ))}
-        </div>
+        {/* Dynamic Stats Section */}
+        <HeroStats />
 
         {/* Scroll indicator */}
         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">

@@ -54,7 +54,7 @@ export default function AdminCommentsPage() {
 
     // optimistic update
     setComments((prev) =>
-      prev.map((c) => (c._id === id ? { ...c, approved } : c))
+      prev.map((c) => (c._id.toString() === id ? { ...c, approved } : c))
     );
 
     try {
@@ -69,7 +69,7 @@ export default function AdminCommentsPage() {
       // rollback on failure
       setComments((prev) =>
         prev.map((c) =>
-          c._id === id ? { ...c, approved: !approved } : c
+          c._id.toString() === id ? { ...c, approved: !approved } : c
         )
       );
       alert("Action failed. Rolled back.");
@@ -82,7 +82,7 @@ export default function AdminCommentsPage() {
     if (!confirm("Delete this comment permanently?")) return;
 
     const snapshot = comments;
-    setComments((prev) => prev.filter((c) => c._id !== id));
+    setComments((prev) => prev.filter((c) => c._id.toString() !== id));
     setBusyId(id);
 
     try {
@@ -193,7 +193,7 @@ export default function AdminCommentsPage() {
 
               <tbody className="divide-y divide-border">
                 {visibleComments.map((comment) => (
-                  <tr key={comment._id} className="align-top hover:bg-muted/5">
+                  <tr key={comment._id.toString()} className="align-top hover:bg-muted/5">
                     <td className="px-6 py-4 max-w-md">
                       <div className="font-medium text-foreground mb-1">
                         {comment.userName || `User ${comment.userId?.substring(0, 6)}`}
@@ -228,21 +228,21 @@ export default function AdminCommentsPage() {
                     <td className="px-6 py-4 text-right space-x-4">
                       {!comment.approved && (
                         <button
-                          disabled={busyId === comment._id}
+                          disabled={busyId === comment._id.toString()}
                           onClick={() =>
-                            updateComment(comment._id, true)
+                            updateComment(comment._id.toString(), true)
                           }
                           className="text-emerald-600 hover:underline disabled:opacity-50"
-                          aria-label={`Approve comment ${comment._id}`}
+                          aria-label={`Approve comment ${comment._id.toString()}`}
                         >
                           Approve
                         </button>
                       )}
                       <button
-                        disabled={busyId === comment._id}
-                        onClick={() => deleteComment(comment._id)}
+                        disabled={busyId === comment._id.toString()}
+                        onClick={() => deleteComment(comment._id.toString())}
                         className="text-destructive hover:underline disabled:opacity-50"
-                        aria-label={`Delete comment ${comment._id}`}
+                        aria-label={`Delete comment ${comment._id.toString()}`}
                       >
                         Delete
                       </button>

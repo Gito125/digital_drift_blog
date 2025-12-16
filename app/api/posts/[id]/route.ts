@@ -26,7 +26,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 
     return NextResponse.json({ post });
   } catch (error) {
-    console.error(`Failed to fetch post ${params.id}:`, error);
+    console.error(`Failed to fetch post ${(await params).id}:`, error);
     return NextResponse.json(
       { error: "Failed to fetch post" },
       { status: 500 }
@@ -83,7 +83,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
 
     return NextResponse.json({ message: "Post updated successfully" });
   } catch (error) {
-    console.error(`Failed to update post ${params.id}:`, error);
+    console.error(`Failed to update post ${(await params).id}:`, error);
     return NextResponse.json(
       { error: "Failed to update post" },
       { status: 500 }
@@ -116,7 +116,7 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
 
     return NextResponse.json({ message: "Post deleted successfully" }, { status: 200 });
   } catch (error) {
-    console.error(`Failed to delete post ${params.id}:`, error);
+    console.error(`Failed to delete post ${(await params).id}:`, error);
     return NextResponse.json(
       { error: "Failed to delete post" },
       { status: 500 }

@@ -24,7 +24,7 @@ async function seedAdminUser() {
     const usersCollection = db.collection("users");
 
     // Check if admin user already exists
-    const existingAdmin = await usersCollection.findOne({ email: "admin@digitaldrift.com" });
+    const existingAdmin = await usersCollection.findOne({ email: "iamgideon125@gmail.com" });
     
     if (existingAdmin) {
       console.log("Admin user already exists. Skipping creation.");
@@ -32,11 +32,11 @@ async function seedAdminUser() {
     }
 
     // Create a default admin user
-    const hashedPassword = await bcrypt.hash("AdminPass123!", 10);
+    const hashedPassword = await bcrypt.hash("L,j,j7!ybW#sG$]J", 10);
     
     const adminUser = {
-      name: "Admin User",
-      email: "admin@digitaldrift.com",
+      name: "Ogwang Gift Gideon",
+      email: "iamgideon125@gmail.com",
       password: hashedPassword,
       role: "admin",
       createdAt: new Date(),
