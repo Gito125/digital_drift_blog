@@ -3,7 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { MongoClient } from "mongodb";
 import { existsSync } from 'fs';
-import {posts} from './posts'
+import posts from './posts'
 
 // Load environment variables from .env.local
 const __filename = fileURLToPath(import.meta.url);
@@ -20,7 +20,7 @@ dotenv.config({ path: envPath });
 console.log('MONGODB_URI after loading .env.local:', process.env.MONGODB_URI ? 'Found' : 'NOT FOUND');
 
 // Sample blog posts about tech and computer science
-const samplePosts = posts;
+const generatedPosts = posts;
 
 async function seedBlogPosts() {
   console.log('MONGODB_URI environment variable:', process.env.MONGODB_URI ? 'Found' : 'NOT FOUND');
@@ -40,7 +40,7 @@ async function seedBlogPosts() {
 
     // Check if sample posts already exist
     const existingCount = await postsCollection.countDocuments({
-      slug: { $in: samplePosts.map(post => post.slug) }
+      slug: { $in: generatedPosts.map(post => post.slug) }
     });
 
     if (existingCount > 0) {
@@ -49,7 +49,7 @@ async function seedBlogPosts() {
     }
 
     // Insert sample posts
-    const result = await postsCollection.insertMany(samplePosts);
+    const result = await postsCollection.insertMany(generatedPosts);
     console.log(`Successfully inserted ${result.insertedCount} sample blog posts.`);
     
   } catch (error) {

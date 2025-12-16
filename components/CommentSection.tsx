@@ -93,7 +93,7 @@ export default function CommentSection({ postId }: CommentSectionProps) {
           </button>
         </form>
       ) : (
-        <div className="mb-8 p-4 bg-gray-100 dark:bg-gray-700 rounded-lg text-center">
+        <div className="mb-8 p-4 bg-accent/80 rounded-lg text-center text-white">
           <p className="mb-2">Please log in to leave a comment</p>
           <a href="/login" className="inline-block px-4 py-2 bg-accent text-white rounded-lg hover:opacity-90 transition-opacity">
             Log In
