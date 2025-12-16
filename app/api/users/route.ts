@@ -40,7 +40,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     const hashedPassword = await bcrypt.hash(password, 10); // Hash with salt rounds = 10
 
-    const newUser: Omit<User, '_id'> = {
+    const newUser: any = {
       name,
       email,
       password: hashedPassword,

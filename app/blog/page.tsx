@@ -3,6 +3,7 @@ import { Post } from "@/models/Post";
 import Link from "next/link";
 import { formatNumber } from "@/lib/utils";
 import { Metadata } from 'next';
+import BlogSearch from "@/components/blog/BlogSearch";
 
 export const metadata: Metadata = {
   title: "Blog - The Latest from Digital Drift",
@@ -45,19 +46,22 @@ export default async function BlogPage(props: { searchParams: Promise<{ page?: s
       </div>
 
       <div className="container mx-auto px-4 py-4 relative z-10">
-        <div className="mb-12 text-center">
+        <div className="mb-12 text-center relative">
           <h1 className="text-5xl py-1.5 font-heading font-bold bg-gradient-to-r from-foreground via-accent to-foreground bg-clip-text text-transparent">
             Blog
           </h1>
           <p className="text-foreground/70 text-lg max-w-2xl mx-auto">
             Explore insights, tutorials, and stories from the digital frontier
           </p>
+          <div className="absolute top-0 right-0">
+            <BlogSearch />
+          </div>
         </div>
 
         <div className="grid gap-8 max-w-4xl mx-auto">
           {posts.map((post) => (
             <article 
-              key={post._id} 
+              key={post._id.toString()} 
               className="group bg-background/80 backdrop-blur-sm border border-foreground/10 rounded-xl p-6 hover:border-accent/50 hover:shadow-xl transition-all duration-300"
             >
               <h2 className="text-2xl font-heading font-semibold mb-3">

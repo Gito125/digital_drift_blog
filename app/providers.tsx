@@ -2,7 +2,6 @@
 
 import { SessionProvider } from "next-auth/react";
 import { ThemeProvider as NextThemesProvider } from 'next-themes';
-import type { ThemeProviderProps } from "next-themes/dist/types";
 
 /**
  * A comprehensive provider component that wraps the application with all necessary context providers.

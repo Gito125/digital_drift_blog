@@ -159,7 +159,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               </svg>
               Comments
             </h3>
-            <CommentSection postId={post._id} />
+            <CommentSection postId={post._id.toString()} />
           </div>
         </div>
       </div>
