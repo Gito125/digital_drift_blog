@@ -4,9 +4,11 @@ import {
   FacebookShareButton,
   TwitterShareButton,
   LinkedinShareButton,
+  WhatsappShareButton,
   FacebookIcon,
   TwitterIcon,
   LinkedinIcon,
+  WhatsappIcon,
 } from 'react-share';
 
 interface ShareButtonsProps {
@@ -34,6 +36,9 @@ export default function ShareButtons({ title, slug }: ShareButtonsProps) {
       <LinkedinShareButton url={shareUrl} title={title}>
         <LinkedinIcon size={32} round />
       </LinkedinShareButton>
+      <WhatsappShareButton url={shareUrl} title={title}>
+        <WhatsappIcon size={32} round />
+      </WhatsappShareButton>
     </div>
   );
 }

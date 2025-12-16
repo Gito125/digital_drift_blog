@@ -1,42 +1,32 @@
 @import "tailwindcss";
 
 @theme {
-  --color-bg-light: #F7F7FF;
-  --color-text-light: #1A1A1A;
-
-  --color-bg-dark: #1A1A2E;
-  --color-text-dark: #F7F7FF;
-  --color-accent-dark: #27187E;
+  /* Define color tokens */
+  --color-bg-light: #f7f7ff;
+  --color-bg-dark: #1a1a2e;
+  --color-text-light: #1a1a1a;
+  --color-text-dark: #f7f7ff;
+  --color-accent: #27187e;
+  --color-accent-dark: #1e1161;
 }
 
-:root {
-  --color-bg: var(--color-bg-light);
-  --color-text: var(--color-text-light);
-  --color-accent: var(--color-accent-dark); /* Accent is mainly for dark mode */
-}
+/* Map to Tailwind's color system */
+@layer base {
+  :root {
+    --color-background: var(--color-bg-light);
+    --color-foreground: var(--color-text-light);
+    --color-primary: var(--color-accent);
+  }
 
-/* Apply light theme by default */
-.light {
-  --color-bg: var(--color-bg-light);
-  --color-text: var(--color-text-light);
-}
-
-/* Apply dark theme when class is present */
-.dark {
-  --color-bg: var(--color-bg-dark);
-  --color-text: var(--color-text-dark);
-}
-
-/* Override if user prefers dark mode and no specific theme is set */
-@media (prefers-color-scheme: dark) {
-  :root:not(.light) {
-    --color-bg: var(--color-bg-dark);
-    --color-text: var(--color-text-dark);
+  .dark {
+    --color-background: var(--color-bg-dark);
+    --color-foreground: var(--color-text-dark);
+    --color-primary: var(--color-accent-dark);
   }
 }
 
 body {
-  background-color: var(--color-bg);
-  color: var(--color-text);
+  background-color: rgb(var(--color-background));
+  color: rgb(var(--color-foreground));
   transition: background-color 0.3s ease, color 0.3s ease;
 }

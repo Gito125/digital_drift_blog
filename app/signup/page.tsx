@@ -8,16 +8,14 @@ import Link from 'next/link';
  * Enhanced Signup Page Component
  * 
  * Features:
- * - Modern glassmorphism design
+ * - Modern glassmorphism design with hero-style background
  * - Real-time password strength indicator
  * - Smooth animations and transitions
  * - Enhanced dark mode support
  * - Password visibility toggle
  * - Form validation feedback
  * - Success modal
- * - Decorative background elements
- * 
- * Allows new users to register an account.
+ * - Decorative background elements matching hero section
  */
 export default function SignupPage() {
   const [name, setName] = useState('');
@@ -71,26 +69,30 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center p-4 bg-gradient-to-br from-background via-background to-accent/10 dark:to-accent/5 relative overflow-hidden">
-      {/* Decorative background elements */}
-      <div className="absolute inset-0 opacity-[0.15] dark:opacity-[0.08] pointer-events-none">
-        <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-accent rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-accent rounded-full blur-3xl animate-pulse delay-1000"></div>
+    <div className="flex min-h-screen items-center justify-center p-4 bg-gradient-to-br from-background via-accent/5 to-background relative overflow-hidden">
+      {/* Animated gradient orbs - Matching hero */}
+      <div className="absolute inset-0 opacity-40">
+        <div className="absolute top-1/4 right-10 w-96 h-96 bg-gradient-to-br from-accent/60 to-transparent rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-1/4 left-10 w-[500px] h-[500px] bg-gradient-to-tl from-accent/40 to-transparent rounded-full blur-3xl animate-pulse" style={{animationDelay: '1.5s'}}></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-gradient-radial from-accent/20 to-transparent rounded-full blur-2xl"></div>
       </div>
+
+      {/* Grid pattern overlay */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] opacity-30"></div>
 
       {/* Success Modal */}
       {success && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm animate-fadeIn">
-          <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-2xl max-w-sm mx-4 transform animate-scaleIn">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-foreground/20 backdrop-blur-sm animate-fadeIn">
+          <div className="bg-background border border-foreground/10 rounded-2xl p-8 shadow-2xl max-w-sm mx-4 transform animate-scaleIn">
             <div className="text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full mb-4">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-green-500/10 rounded-full mb-4">
                 <span className="text-4xl">✅</span>
               </div>
-              <h3 className="text-2xl font-heading font-bold text-text mb-2">Success!</h3>
-              <p className="text-text/70 dark:text-text/80 mb-4">
+              <h3 className="text-2xl font-heading font-bold text-foreground mb-2">Success!</h3>
+              <p className="text-foreground/70 mb-4">
                 Your account has been created successfully.
               </p>
-              <p className="text-sm text-text/60">Redirecting to login...</p>
+              <p className="text-sm text-foreground/60">Redirecting to login...</p>
             </div>
           </div>
         </div>
@@ -99,16 +101,16 @@ export default function SignupPage() {
       {/* Signup Card */}
       <div className="w-full max-w-md relative z-10">
         {/* Card with glassmorphism effect */}
-        <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl rounded-2xl shadow-2xl border border-gray-200/50 dark:border-gray-700/50 p-8 md:p-10 transform transition-all duration-300 hover:shadow-accent/10">
+        <div className="bg-background/80 backdrop-blur-xl rounded-2xl shadow-2xl border border-foreground/10 p-8 md:p-10 transform transition-all duration-300 hover:shadow-accent/10">
           {/* Header */}
           <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-accent/10 dark:bg-accent/20 rounded-2xl mb-4">
-              <span className="text-3xl">🚀Logo</span>
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-accent/10 rounded-2xl mb-4">
+              <span className="text-3xl">🚀</span>
             </div>
-            <h1 className="text-3xl md:text-4xl font-heading font-bold text-text mb-2">
+            <h1 className="text-3xl md:text-4xl font-heading font-bold text-foreground mb-2">
               Join Digital Drift
             </h1>
-            <p className="text-text/70 dark:text-text/80">
+            <p className="text-foreground/70">
               Create your account to start exploring
             </p>
           </div>
@@ -116,7 +118,7 @@ export default function SignupPage() {
           <form onSubmit={handleSubmit} className="space-y-5">
             {/* Error message */}
             {error && (
-              <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 p-4 rounded-xl text-sm flex items-start gap-3 animate-shake">
+              <div className="bg-red-500/10 border border-red-500/20 text-red-600 dark:text-red-400 p-4 rounded-xl text-sm flex items-start gap-3 animate-shake">
                 <span className="text-lg">⚠️</span>
                 <span>{error}</span>
               </div>
@@ -126,12 +128,12 @@ export default function SignupPage() {
             <div className="space-y-2">
               <label 
                 htmlFor="name" 
-                className="block text-sm font-semibold text-text/90"
+                className="block text-sm font-semibold text-foreground/90"
               >
                 Full Name
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-text/50">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-foreground/50">
                   <span>👤</span>
                 </div>
                 <input
@@ -140,7 +142,7 @@ export default function SignupPage() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="John Doe"
-                  className="block w-full pl-12 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white/50 dark:bg-gray-900/50 text-text placeholder:text-text/50 focus:outline-none focus:ring-2 focus:ring-accent dark:focus:ring-accent/70 focus:border-transparent transition-all duration-200"
+                  className="block w-full pl-12 pr-4 py-3 border border-foreground/20 rounded-xl bg-background/50 text-foreground placeholder:text-foreground/50 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all duration-200"
                   required
                 />
               </div>
@@ -150,12 +152,12 @@ export default function SignupPage() {
             <div className="space-y-2">
               <label 
                 htmlFor="email" 
-                className="block text-sm font-semibold text-text/90"
+                className="block text-sm font-semibold text-foreground/90"
               >
                 Email Address
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-text/50">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-foreground/50">
                   <span>📧</span>
                 </div>
                 <input
@@ -164,7 +166,7 @@ export default function SignupPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="you@example.com"
-                  className="block w-full pl-12 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white/50 dark:bg-gray-900/50 text-text placeholder:text-text/50 focus:outline-none focus:ring-2 focus:ring-accent dark:focus:ring-accent/70 focus:border-transparent transition-all duration-200"
+                  className="block w-full pl-12 pr-4 py-3 border border-foreground/20 rounded-xl bg-background/50 text-foreground placeholder:text-foreground/50 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all duration-200"
                   required
                 />
               </div>
@@ -174,12 +176,12 @@ export default function SignupPage() {
             <div className="space-y-2">
               <label 
                 htmlFor="password" 
-                className="block text-sm font-semibold text-text/90"
+                className="block text-sm font-semibold text-foreground/90"
               >
                 Password
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-text/50">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-foreground/50">
                   <span>🔒</span>
                 </div>
                 <input
@@ -188,13 +190,13 @@ export default function SignupPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Create a strong password"
-                  className="block w-full pl-12 pr-12 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white/50 dark:bg-gray-900/50 text-text placeholder:text-text/50 focus:outline-none focus:ring-2 focus:ring-accent dark:focus:ring-accent/70 focus:border-transparent transition-all duration-200"
+                  className="block w-full pl-12 pr-12 py-3 border border-foreground/20 rounded-xl bg-background/50 text-foreground placeholder:text-foreground/50 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all duration-200"
                   required
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-4 flex items-center text-text/50 hover:text-text transition-colors"
+                  className="absolute inset-y-0 right-0 pr-4 flex items-center text-foreground/50 hover:text-foreground transition-colors"
                 >
                   <span className="text-lg">{showPassword ? "🙈" : "👁️"}</span>
                 </button>
@@ -212,10 +214,10 @@ export default function SignupPage() {
                     <div className={`h-1.5 flex-1 rounded-full transition-colors duration-300 ${
                       passwordStrength === 'medium' || passwordStrength === 'strong' ? 
                       (passwordStrength === 'medium' ? 'bg-yellow-500' : 'bg-green-500') : 
-                      'bg-gray-300 dark:bg-gray-600'
+                      'bg-foreground/10'
                     }`}></div>
                     <div className={`h-1.5 flex-1 rounded-full transition-colors duration-300 ${
-                      passwordStrength === 'strong' ? 'bg-green-500' : 'bg-gray-300 dark:bg-gray-600'
+                      passwordStrength === 'strong' ? 'bg-green-500' : 'bg-foreground/10'
                     }`}></div>
                   </div>
                   <p className={`text-xs font-medium ${
@@ -238,9 +240,9 @@ export default function SignupPage() {
                 type="checkbox"
                 id="terms"
                 required
-                className="mt-1 w-4 h-4 rounded border-gray-300 text-accent focus:ring-accent"
+                className="mt-1 w-4 h-4 rounded border-foreground/20 text-accent focus:ring-accent"
               />
-              <label htmlFor="terms" className="text-sm text-text/70 dark:text-text/80">
+              <label htmlFor="terms" className="text-sm text-foreground/70">
                 I agree to the{' '}
                 <Link href="/terms" className="text-accent hover:underline font-medium">
                   Terms of Service
@@ -256,7 +258,7 @@ export default function SignupPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full px-6 py-3.5 bg-accent hover:bg-accent/90 dark:bg-accent/95 dark:hover:bg-accent text-white rounded-xl font-semibold shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2 group"
+              className="w-full px-6 py-3.5 bg-accent hover:opacity-90 text-background rounded-xl font-semibold shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2 group"
             >
               {loading ? (
                 <>
@@ -278,10 +280,10 @@ export default function SignupPage() {
           {/* Divider */}
           <div className="relative my-8">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-300 dark:border-gray-600"></div>
+              <div className="w-full border-t border-foreground/10"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-4 bg-white/80 dark:bg-gray-800/80 text-text/60">or sign up with</span>
+              <span className="px-4 bg-background/80 text-foreground/60">or sign up with</span>
             </div>
           </div>
 
@@ -289,26 +291,26 @@ export default function SignupPage() {
           <div className="grid grid-cols-2 gap-4">
             <button
               type="button"
-              className="flex items-center justify-center gap-2 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white/50 dark:bg-gray-900/50 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-all duration-200 group"
+              className="flex items-center justify-center gap-2 px-4 py-3 border border-foreground/20 rounded-xl bg-background/50 hover:bg-foreground/5 transition-all duration-200 group"
             >
               <span className="text-xl">🌐</span>
-              <span className="text-sm font-medium text-text">Google</span>
+              <span className="text-sm font-medium text-foreground">Google</span>
             </button>
             <button
               type="button"
-              className="flex items-center justify-center gap-2 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white/50 dark:bg-gray-900/50 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-all duration-200 group"
+              className="flex items-center justify-center gap-2 px-4 py-3 border border-foreground/20 rounded-xl bg-background/50 hover:bg-foreground/5 transition-all duration-200 group"
             >
               <span className="text-xl">💼</span>
-              <span className="text-sm font-medium text-text">GitHub</span>
+              <span className="text-sm font-medium text-foreground">GitHub</span>
             </button>
           </div>
 
           {/* Login link */}
-          <p className="mt-8 text-center text-sm text-text/70 dark:text-text/80">
+          <p className="mt-8 text-center text-sm text-foreground/70">
             Already have an account?{' '}
             <Link 
               href="/login" 
-              className="text-accent hover:text-accent/80 dark:hover:text-accent/90 font-semibold transition-colors"
+              className="text-accent hover:text-accent/80 font-semibold transition-colors"
             >
               Sign in instead
             </Link>
@@ -316,7 +318,7 @@ export default function SignupPage() {
         </div>
 
         {/* Bottom decoration */}
-        <div className="mt-6 text-center text-xs text-text/50">
+        <div className="mt-6 text-center text-xs text-foreground/50">
           <p>Secured by Digital Drift • Protected Connection</p>
         </div>
       </div>
@@ -344,9 +346,6 @@ export default function SignupPage() {
         }
         .animate-scaleIn {
           animation: scaleIn 0.3s ease-out;
-        }
-        .delay-1000 {
-          animation-delay: 1s;
         }
       `}</style>
     </div>

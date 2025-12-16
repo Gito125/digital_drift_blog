@@ -8,6 +8,7 @@ import TopicsSection from '@/components/main/TopicsSection';
 import { TechnologyStackSection } from '@/components/main/TechnologyStackSection';
 import CTA_Section from '@/components/main/CTA_Section';
 import FooterSection from '@/components/main/FooterSection';
+import CTA_Button from '@/components/ui/CTA_Button';
 
 /**
  * Digital Drift Home Page Component
@@ -52,12 +53,7 @@ export default async function HomePage() {
           <RecentPostsSection />
 
           <div className="text-center mt-12">
-            <Link
-              href="/blog"
-              className="bg-accent px-8 py-3 bg text-text rounded-lg hover:opacity-90 transition-opacity text-lg font-medium shadow-md hover:shadow-lg"
-            >
-              View All Articles
-            </Link>
+            <CTA_Button text='View All Articles' linkTo='/blog'/>
           </div>
         </div>
       </section>

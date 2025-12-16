@@ -1,5 +1,9 @@
 import { Session } from "next-auth"
-import Link from "next/link"
+import AnimatedGradientOrbs from "@/components/ui/AnimatedGradientOrbs"
+import GridPatternOverlay from "@/components/ui/GridPatternOverlay"
+import PulsingBadge from "@/components/ui/PulsingBadge"
+import CTA_Button_Dark from "../ui/CTA_Button_Dark"
+import CTA_Button_Light from "../ui/CTA_Button_Light"
 
 interface HeroSectionProps {
   session: Session | null
@@ -7,60 +11,69 @@ interface HeroSectionProps {
 
 const HeroSection = ({ session }: HeroSectionProps) => {
   return (
-    <section className="relative py-20 bg-gradient-to-br from-background via-background to-accent/10 dark:to-accent/5 overflow-hidden">
-        {/* Decorative background elements - Enhanced for dark mode */}
-        <div className="absolute inset-0 opacity-[0.15] dark:opacity-[0.08]">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-accent dark:bg-accent/80 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent dark:bg-accent/80 rounded-full blur-3xl"></div>
+    <section className="relative min-h-[90vh] flex items-center justify-center bg-gradient-to-br from-background via-accent/5 to-background overflow-hidden">
+      {/* Animated gradient orbs */}
+      <AnimatedGradientOrbs />
+
+      {/* Grid pattern overlay */}
+      <GridPatternOverlay />
+
+      <div className="container mx-auto px-4 text-center relative z-10 py-10 md:py-20">
+        {/* Badge */}
+        <PulsingBadge text="Now Live: Next.js 16 Blog Platform" />
+
+        <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+          <span className="bg-gradient-to-r from-foreground via-accent to-foreground bg-clip-text text-transparent">
+            Exploring the
+          </span>
+          <br />
+          <span className="bg-gradient-to-r from-accent via-accent/80 to-accent bg-clip-text text-transparent">
+            Digital Frontier
+          </span>
+        </h1>
+
+        <p className="text-lg md:text-xl text-foreground/70 max-w-3xl mx-auto mb-12 leading-relaxed">
+          A cutting-edge blog platform powered by Next.js 16. Dive into the latest in 
+          <span className="text-accent font-semibold"> web development</span>, 
+          <span className="text-accent font-semibold"> AI</span>, and 
+          <span className="text-accent font-semibold"> emerging technologies</span>.
+        </p>
+        
+        <div className="flex flex-col sm:flex-row justify-center gap-4 mb-20">
+          <CTA_Button_Dark text="Explore Blog" linkTo="/blog" />
+          {!session && (
+            <CTA_Button_Light text="Join Our Community" linkTo="/signup" />
+          )}
         </div>
 
-        <div className="container mx-auto px-4 text-center relative z-10">
-          <h1 className="text-4xl md:text-6xl font-azurio font-bold mb-6 text-text-light dark:text-text-dark">
-           or Expling the Digital Frontier
-          </h1>
-          <p className="text-xl text-text/80 dark:text-text/90 max-w-2xl mx-auto mb-10">
-            Digital Drift is a Next.js 16 blog platform where we explore cutting-edge technology,
-            web development, and the ever-evolving digital landscape.
-          </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Link
-              href="/blog"
-              className="bg-accent px-8 py-3 bg text-text rounded-lg hover:opacity-90 transition-opacity text-lg font-medium shadow-md hover:shadow-lg"
+        {/* Stats - Redesigned */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 max-w-5xl mx-auto">
+          {[
+            { num: "50+", label: "Articles", icon: "📝" },
+            { num: "10K+", label: "Readers", icon: "👥" },
+            { num: "15+", label: "Topics", icon: "🎯" },
+            { num: "5+", label: "Contributors", icon: "✨" },
+          ].map((stat, i) => (
+            <div
+              key={i}
+              className="group p-6 bg-background/60 backdrop-blur-md border border-foreground/10 rounded-2xl hover:border-accent/50 hover:bg-background/80 transition-all duration-300 hover:scale-105"
             >
-              Explore Blog
-            </Link>
-            {!session && (
-              <Link
-                href="/signup"
-                className="px-8 py-3 bg-bg-light dark:bg-gray-800 text-gray-900 dark:text-text-dark border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors text-lg font-medium shadow-sm"
-              >
-                Join Us
-              </Link>
-            )}
-          </div>
-
-          {/* Quick stats - Enhanced dark mode styling */}
-          <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
-            <div className="px-8 py-3 bg-bg-light dark:bg-gray-800 text-gray-900 dark:text-text-dark border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors text-lg font-medium shadow-sm">
-              <div className="text-3xl font-bold text-accent dark:text-accent/90 mb-1">50+</div>
-              <div className="text-sm text-text/70 dark:text-text/80">Articles Published</div>
+              <div className="text-3xl mb-2 group-hover:scale-110 transition-transform">{stat.icon}</div>
+              <div className="text-3xl md:text-4xl font-bold text-accent mb-1">{stat.num}</div>
+              <div className="text-sm text-foreground/60 font-medium">{stat.label}</div>
             </div>
-            <div className="px-8 py-3 bg-bg-light dark:bg-gray-800 text-gray-900 dark:text-text-dark border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors text-lg font-medium shadow-sm">
-              <div className="text-3xl font-bold text-accent dark:text-accent/90 mb-1">10K+</div>
-              <div className="text-sm text-text/70 dark:text-text/80">Monthly Readers</div>
-            </div>
-            <div className="px-8 py-3 bg-bg-light dark:bg-gray-800 text-gray-900 dark:text-text-dark border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors text-lg font-medium shadow-sm">
-              <div className="text-3xl font-bold text-accent dark:text-accent/90 mb-1">15+</div>
-              <div className="text-sm text-text/70 dark:text-text/80">Topics Covered</div>
-            </div>
-            <div className="px-8 py-3 bg-bg-light dark:bg-gray-800 text-gray-900 dark:text-text-dark border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors text-lg font-medium shadow-sm">
-              <div className="text-3xl font-bold text-accent dark:text-accent/90 mb-1">5+</div>
-              <div className="text-sm text-text/70 dark:text-text/80">Contributors</div>
-            </div>
-          </div>
+          ))}
         </div>
+
+        {/* Scroll indicator */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+          <svg className="w-6 h-6 text-foreground/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          </svg>
+        </div>
+      </div>
     </section>
-  )
-}
+  );
+};
 
 export default HeroSection

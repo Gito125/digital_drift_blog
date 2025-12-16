@@ -1,5 +1,10 @@
 import { Session } from 'next-auth';
 import Link from 'next/link';
+import AnimatedGradientOrbs from '../ui/AnimatedGradientOrbs';
+import GridPatternOverlay from '../ui/GridPatternOverlay';
+import PulsingBadge from '../ui/PulsingBadge';
+import CTA_Button_Light from '../ui/CTA_Button_Light';
+import CTA_Button_Dark from '../ui/CTA_Button_Dark';
 
 interface CTA_Props {
     session: Session | null
@@ -7,49 +12,46 @@ interface CTA_Props {
 
 const CTA_Section = ({session}: CTA_Props) => {
   return (
-    <section className="py-20 bg-accent dark:bg-accent/95 text-white relative overflow-hidden">
-        {/* Decorative elements for depth */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 left-1/4 w-96 h-96 bg-white rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-white rounded-full blur-3xl"></div>
-        </div>
+    <>
+        <section className="relative min-h-[90vh] flex items-center justify-center bg-gradient-to-br from-background via-accent/5 to-background overflow-hidden">
+      {/* Animated gradient orbs */}
+      <AnimatedGradientOrbs />
+
+      {/* Grid pattern overlay */}
+      <GridPatternOverlay />
+
+      <div className="container mx-auto px-4 text-center relative z-10 py-20">
+        {/* Badge */}
+        <PulsingBadge text="Join Our Community" />
+
+        {/* Heading and Description */}
+        <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+          <span className="bg-gradient-to-r from-foreground via-accent to-foreground bg-clip-text text-transparent">
+            Ready to Start
+          </span>
+          <br />
+          <span className="bg-gradient-to-r from-accent via-accent/80 to-accent bg-clip-text text-transparent">
+            Your Journey?
+          </span>
+        </h1>
+
+        <p className="text-lg md:text-xl text-foreground/70 max-w-3xl mx-auto mb-12 leading-relaxed">
+          Join our community of developers and tech enthusiasts.
+          <span className="text-accent font-semibold"> Share your knowledge</span>, 
+          <span className="text-accent font-semibold"> learn from others,</span> and stay updated
+          <span className="text-accent font-semibold"> with the latest in technology</span>.
+        </p>
         
-        <div className="container mx-auto px-4 text-center relative z-10">
-          <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4">
-            Ready to Start Your Journey?
-          </h2>
-          <p className="text-white/95 max-w-2xl mx-auto mb-8 text-lg">
-            Join our community of developers and tech enthusiasts. Share your knowledge, 
-            learn from others, and stay updated with the latest in technology.
-          </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            {!session ? (
-              <>
-                <Link
-                  href="/signup"
-                  className="px-8 py-3 bg-white dark:bg-white text-accent rounded-lg hover:bg-gray-50 dark:hover:bg-gray-100 transition-colors text-lg font-medium shadow-lg hover:shadow-xl"
-                >
-                  Create Account
-                </Link>
-                <Link
-                  href="/blog"
-                  className="px-8 py-3 bg-transparent text-white border-2 border-white rounded-lg hover:bg-white hover:text-accent transition-all text-lg font-medium shadow-md hover:shadow-lg"
-                >
-                  Browse Articles
-                </Link>
-              </>
-            ) : (
-              <Link
-                href="/blog"
-                className="px-8 py-3 bg-white dark:bg-white text-accent rounded-lg hover:bg-gray-50 dark:hover:bg-gray-100 transition-colors text-lg font-medium shadow-lg hover:shadow-xl"
-              >
-                Continue Reading
-              </Link>
-            )}
-          </div>
+        <div className="flex flex-col sm:flex-row justify-center gap-4 mb-20">
+          <CTA_Button_Dark text="Get Started" linkTo="/signup" />
+          {!session && (
+          <CTA_Button_Light text="Login" linkTo="/login" />
+          )}
         </div>
+      </div>
     </section>
+  </>
   )
 }
 
-export default CTA_Section
+export default CTA_Section;
