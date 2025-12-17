@@ -18,8 +18,8 @@ pnpm seed-admin
 ```
 
 This creates an admin user with the following credentials:
-- **Email**: `admin@digitaldrift.com`
-- **Password**: `AdminPass123!`
+- **Email**: `iamgideon125@gmail.com`
+- **Password**: `L,j,j7!ybW#sG$]J`
 
 ### Option 2: Register as Admin via API
 

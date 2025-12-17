@@ -23,7 +23,7 @@ const HeroStats = () => {
     const fetchStats = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/stats`, { cache: 'no-store' });
+        const response = await fetch(`/api/stats`, { cache: 'no-store' });
 
         if (!response.ok) {
           throw new Error('Failed to fetch stats');

@@ -19,7 +19,7 @@ export default function AdminPostsPage() {
       try {
         setLoading(true);
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/posts?limit=1000&status=all`,
+          `/api/posts?limit=1000&status=all`,
           { cache: "no-store" }
         );
 
@@ -46,7 +46,7 @@ export default function AdminPostsPage() {
     }
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/posts/${id}`, {
+      const res = await fetch(`/api/posts/${id}`, {
         method: "DELETE",
       });
 

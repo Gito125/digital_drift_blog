@@ -21,7 +21,7 @@ export default function AdminCategoriesPage() {
     const fetchCategories = async () => {
       try {
         setLoading(true);
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/categories`, { cache: 'no-store' });
+        const res = await fetch(`/api/categories`, { cache: 'no-store' });
         if (!res.ok) {
           throw new Error('Failed to fetch categories');
         }
@@ -48,7 +48,7 @@ export default function AdminCategoriesPage() {
     setIsSubmitting(true);
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/categories`, {
+      const res = await fetch(`/api/categories`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newCategory)
@@ -79,7 +79,7 @@ export default function AdminCategoriesPage() {
     setIsSubmitting(true);
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/categories/${selectedCategory._id.toString()}`, {
+      const res = await fetch(`/api/categories/${selectedCategory._id.toString()}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(editCategory)
@@ -115,7 +115,7 @@ export default function AdminCategoriesPage() {
     }
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/categories/${id}`, {
+      const res = await fetch(`/api/categories/${id}`, {
         method: 'DELETE'
       });
 
