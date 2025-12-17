@@ -4,10 +4,14 @@ import { useState, useEffect } from "react";
 import { Category } from "@/models/Category";
 import CreateCategoryModel from "@/components/ui/CreateCategoryModel";
 
+const PAGE_SIZE = 15;
+
 type CategoryWithStatus = Category & { status: 'active' | 'inactive' };
 
 export default function AdminCategoriesPage() {
   const [categories, setCategories] = useState<CategoryWithStatus[]>([]);
+  const [total, setTotal] = useState(0);
+  const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -21,9 +25,11 @@ export default function AdminCategoriesPage() {
     const fetchCategories = async () => {
       try {
         setLoading(true);
-        const res = await fetch(`/api/categories`, { cache: 'no-store' });
+        setError(null);
+        const res = await fetch(`/api/categories?page=${page}&limit=${PAGE_SIZE}`, { cache: 'no-store' });
         if (!res.ok) {
-          throw new Error('Failed to fetch categories');
+          const errorData = await res.json();
+          throw new Error(errorData.error || 'Failed to fetch categories');
         }
         const data = await res.json();
         // Add status to each category for display purposes (categories in this system are always active)
@@ -32,6 +38,7 @@ export default function AdminCategoriesPage() {
           status: 'active' as const
         }));
         setCategories(categoriesWithStatus);
+        setTotal(data.total);
       } catch (err) {
         setError(err instanceof Error ? err.message : "An error occurred while fetching categories");
         console.error("Failed to fetch categories:", err);
@@ -41,7 +48,7 @@ export default function AdminCategoriesPage() {
     };
 
     fetchCategories();
-  }, []);
+  }, [page]);
 
   const handleCreateCategory = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -124,7 +131,25 @@ export default function AdminCategoriesPage() {
         throw new Error(errorData.error || "Failed to delete category");
       }
 
-      setCategories(categories.filter(cat => cat._id.toString() !== id));
+      // If this is the last item on the current page and there are other pages, go to the previous page
+      if (categories.length === 1 && page > 1) {
+        setPage(prev => prev - 1);
+      } else {
+        // Otherwise, refetch the current page to update the list
+        const res = await fetch(`/api/categories?page=${page}&limit=${PAGE_SIZE}`, { cache: 'no-store' });
+        if (!res.ok) {
+          const errorData = await res.json();
+          throw new Error(errorData.error || 'Failed to fetch categories');
+        }
+        const data = await res.json();
+        // Add status to each category for display purposes (categories in this system are always active)
+        const categoriesWithStatus = data.categories.map((cat: Category) => ({
+          ...cat,
+          status: 'active' as const
+        }));
+        setCategories(categoriesWithStatus);
+        setTotal(data.total);
+      }
       alert("Category deleted successfully!");
     } catch (err) {
       console.error("Failed to delete category:", err);
@@ -347,15 +372,23 @@ export default function AdminCategoriesPage() {
         </div>
 
         {/* Table Footer */}
-        {categories.length > 0 && (
+        {total > 0 && (
           <div className="px-6 py-4 border-t border-foreground/10 bg-foreground/5">
             <div className="flex items-center justify-between text-sm text-foreground/60">
-              <p>Showing <span className="font-medium text-foreground">{categories.length}</span> categories</p>
+              <p>Showing {((page - 1) * PAGE_SIZE) + 1}-{Math.min(page * PAGE_SIZE, total)} of {total} categories</p>
               <div className="flex items-center gap-2">
-                <button className="px-3 py-1.5 rounded-lg border border-foreground/10 hover:bg-foreground/5 transition-colors text-foreground/80 disabled:opacity-50">
+                <button
+                  onClick={() => setPage((p) => Math.max(p - 1, 1))}
+                  disabled={page === 1}
+                  className="px-3 py-1.5 rounded-lg border border-foreground/10 hover:bg-foreground/5 transition-colors text-foreground/80 disabled:opacity-50"
+                >
                   Previous
                 </button>
-                <button className="px-3 py-1.5 rounded-lg border border-foreground/10 hover:bg-foreground/5 transition-colors text-foreground/80 disabled:opacity-50">
+                <button
+                  onClick={() => setPage((p) => Math.min(p + 1, Math.ceil(total / PAGE_SIZE)))}
+                  disabled={page === Math.ceil(total / PAGE_SIZE)}
+                  className="px-3 py-1.5 rounded-lg border border-foreground/10 hover:bg-foreground/5 transition-colors text-foreground/80 disabled:opacity-50"
+                >
                   Next
                 </button>
               </div>

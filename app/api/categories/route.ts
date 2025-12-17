@@ -6,14 +6,39 @@ import { Category } from "@/models/Category";
 
 /**
  * GET /api/categories
- * Fetches all categories
+ * Fetches paginated categories
+ *
+ * Query params:
+ * - page: number (default: 1)
+ * - limit: number (default: 20)
  */
 export async function GET(request: NextRequest) {
   try {
+    const { searchParams } = new URL(request.url);
+    const page = parseInt(searchParams.get("page") || "1");
+    const limit = parseInt(searchParams.get("limit") || "20");
+
+    const skip = (page - 1) * limit;
+
     const client = await clientPromise;
     const db = client.db();
-    const categories = await db.collection<Category>('categories').find().sort({ name: 1 }).toArray();
-    return NextResponse.json({ categories });
+    const collection = db.collection<Category>('categories');
+
+    const categories = await collection
+      .find()
+      .sort({ name: 1 })
+      .skip(skip)
+      .limit(limit)
+      .toArray();
+
+    const total = await collection.countDocuments({});
+
+    return NextResponse.json({
+      categories,
+      total,
+      page,
+      limit
+    });
   } catch (error) {
     console.error("Failed to fetch categories:", error);
     return NextResponse.json({ error: "Failed to fetch categories" }, { status: 500 });

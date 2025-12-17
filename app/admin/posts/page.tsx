@@ -5,12 +5,16 @@ import { Post } from "@/models/Post";
 import Link from "next/link";
 import CTA_Button from "@/components/ui/CTA_Button";
 
+const PAGE_SIZE = 10;
+
 /**
  * Admin Posts Page
  * Displays a table of all posts with management options.
  */
 export default function AdminPostsPage() {
   const [posts, setPosts] = useState<Post[]>([]);
+  const [total, setTotal] = useState(0);
+  const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -18,17 +22,20 @@ export default function AdminPostsPage() {
     const fetchPosts = async () => {
       try {
         setLoading(true);
+        setError(null);
         const res = await fetch(
-          `/api/posts?limit=1000&status=all`,
+          `/api/posts?page=${page}&limit=${PAGE_SIZE}&status=all`,
           { cache: "no-store" }
         );
 
         if (!res.ok) {
-          throw new Error("Failed to fetch posts");
+          const errorData = await res.json();
+          throw new Error(errorData.error || "Failed to fetch posts");
         }
 
         const data = await res.json();
         setPosts(data.posts);
+        setTotal(data.total);
       } catch (err) {
         setError(err instanceof Error ? err.message : "An error occurred while fetching posts");
         console.error("Failed to fetch posts:", err);
@@ -38,7 +45,7 @@ export default function AdminPostsPage() {
     };
 
     fetchPosts();
-  }, []);
+  }, [page]);
 
   const deletePost = async (id: string) => {
     if (!confirm("Delete this post permanently? This action cannot be undone.")) {
@@ -55,8 +62,22 @@ export default function AdminPostsPage() {
         throw new Error(errorData.error || "Failed to delete post");
       }
 
-      // Remove the deleted post from the UI
-      setPosts(posts.filter(post => post._id.toString() !== id));
+      // If this is the last item on the current page and there are other pages, go to the previous page
+      if (posts.length === 1 && page > 1) {
+        setPage(prev => prev - 1);
+      } else {
+        // Otherwise, refetch the current page to update the list
+        const res = await fetch(`/api/posts?page=${page}&limit=${PAGE_SIZE}&status=all`, { cache: "no-store" });
+        if (!res.ok) {
+          const errorData = await res.json();
+          throw new Error(errorData.error || "Failed to fetch posts");
+        }
+
+        const data = await res.json();
+        setPosts(data.posts);
+        setTotal(data.total);
+      }
+
       alert("Post deleted successfully");
     } catch (error) {
       console.error("Failed to delete post:", error);
@@ -86,6 +107,8 @@ export default function AdminPostsPage() {
       </div>
     );
   }
+
+  const totalPages = Math.ceil(total / PAGE_SIZE);
 
   return (
     <div className="space-y-6">
@@ -165,6 +188,32 @@ export default function AdminPostsPage() {
           </table>
         )}
       </div>
+
+      {/* PAGINATION */}
+      {totalPages > 1 && (
+        <div className="flex justify-between items-center">
+          <span className="text-sm text-muted-foreground">
+            Showing {((page - 1) * PAGE_SIZE) + 1}-{Math.min(page * PAGE_SIZE, total)} of {total} posts
+          </span>
+
+          <div className="flex gap-2">
+            <button
+              disabled={page === 1}
+              onClick={() => setPage((p) => Math.max(p - 1, 1))}
+              className="px-3 py-1 border rounded disabled:opacity-50"
+            >
+              Prev
+            </button>
+            <button
+              disabled={page === totalPages}
+              onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
+              className="px-3 py-1 border rounded disabled:opacity-50"
+            >
+              Next
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

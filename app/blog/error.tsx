@@ -28,8 +28,8 @@ export default function BlogError({
           </svg>
         </div>
 
-        <h1 className="text-3xl md:text-5xl font-heading font-bold text-foreground mb-4">Something broke loading this article</h1>
-        <p className="text-foreground/70 mb-8">We couldn't load this article. You can try again or return to the blog listing.</p>
+        <h1 className="text-3xl md:text-5xl font-heading font-bold text-foreground mb-4">Something broke loading this page</h1>
+        <p className="text-foreground/70 mb-8">We couldn&apos;t load this page. You can try again or return to the blog listing.</p>
 
         {process.env.NODE_ENV === 'development' && (
           <div className="mb-6 p-4 bg-destructive/10 border border-destructive/20 rounded-lg text-sm font-mono break-words">
@@ -39,7 +39,7 @@ export default function BlogError({
         )}
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <button onClick={() => reset()} className="px-6 py-3 bg-accent text-background rounded-lg font-semibold hover:scale-105 transition">Retry</button>
+          <button onClick={() => reset()} className="px-6 py-3 bg-accent text-white rounded-lg font-semibold hover:scale-105 transition">Retry</button>
           <Link href="/blog" className="px-6 py-3 bg-background border border-foreground/10 rounded-lg hover:border-accent transition">Back to Blog</Link>
         </div>
       </div>

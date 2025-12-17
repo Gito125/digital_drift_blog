@@ -8,25 +8,24 @@ import CommentSection from "@/components/CommentSection";
 import ShareButtons from "@/components/ShareButtons";
 import { formatNumber } from "@/lib/utils";
 import Markdown from "@/components/md/Markdown";
+import clientPromise from "@/lib/mongodb"; // Add this import
 
 /**
- * Fetch a post by slug from the public API.
- * Uses `no-store` so we always fetch the latest content for dynamic pages.
+ * Fetch a post by slug directly from MongoDB.
+ * No fetch—direct DB for build/runtime consistency. Filters to published only.
  */
-
 async function getPostBySlug(slug: string): Promise<Post> {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/posts/slug/${encodeURIComponent(slug)}`,
-    { cache: "no-store" }
-  );
+  const client = await clientPromise;
+  const db = client.db();
+  const collection = db.collection<Post>("posts");
 
-  if (!res.ok) {
-    if (res.status === 404) notFound();
-    throw new Error("Failed to fetch post");
+  const post = await collection.findOne({ slug, status: "published" });
+
+  if (!post) {
+    notFound();
   }
 
-  const data = await res.json();
-  return data.post;
+  return post;
 }
 
 /**
@@ -40,10 +39,6 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const post = await getPostBySlug(slug);
-
-  if (!post) {
-    return { title: "Post not found" };
-  }
 
   const publishedAtDate =
     post.publishedAt &&
@@ -148,7 +143,7 @@ export default async function BlogPostPage({
           </div>
 
           {/* Markdown content (server-side rendering via Markdown component) */}
-          <div className="prose prose-lg prose-headings:text-foreground prose-headings:font-heading prose-p:text-foreground/80 prose-p:leading-relaxed prose-a:text-accent hover:prose-a:underline prose-strong:text-foreground prose-code:text-accent prose-code:bg-accent/5 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-pre:bg-foreground/5 prose-pre:border prose-pre:border-foreground/10 prose-blockquote:border-l-accent prose-blockquote:text-foreground/70 prose-img:rounded-xl prose-img:shadow-lg dark:prose-invert max-w-none">
+          <div className="prose prose-lg prose-lg prose-headings:text-foreground prose-headings:font-heading prose-p:text-foreground/80 prose-p:leading-relaxed prose-a:text-accent hover:prose-a:underline prose-strong:text-foreground prose-code:text-accent prose-code:bg-accent/5 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-pre:bg-foreground/5 prose-pre:border prose-pre:border-foreground/10 prose-blockquote:border-l-accent prose-blockquote:text-foreground/70 prose-img:rounded-xl prose-img:shadow-lg dark:prose-invert max-w-none">
             <Markdown content={post.content} />
           </div>
         </article>
@@ -188,18 +183,26 @@ export default async function BlogPostPage({
 
 /**
  * generateStaticParams
- * - Prepares static params for all posts so Next.js can prerender pages at build time.
- * - Keep the limit high enough to include all posts; adjust for large sites.
+ * - Prepares static params for all published posts so Next.js can prerender pages at build time.
+ * - Direct DB query—no fetch, works at build time. Fetch all (or limit if massive blog).
  */
 export async function generateStaticParams() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/posts?limit=1000`);
-  if (!res.ok) {
-    // If fetching fails at build time, return an empty array to avoid breaking the build.
-    return [];
-  }
-  const { posts } = await res.json();
+  try {
+    const client = await clientPromise;
+    const db = client.db();
+    const collection = db.collection<Post>("posts");
 
-  return posts.map((post: Post) => ({
-    slug: post.slug,
-  }));
+    // Fetch only published slugs (matches public API logic)
+    const posts = await collection
+      .find({ status: "published" }, { projection: { slug: 1 } })
+      .limit(1000) // Keep your original limit for safety
+      .toArray();
+
+    return posts.map((post) => ({
+      slug: post.slug,
+    }));
+  } catch (error) {
+    console.error("Failed to generate static params:", error);
+    return []; // Graceful fail—build continues, routes dynamic
+  }
 }
