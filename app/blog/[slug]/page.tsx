@@ -1,7 +1,6 @@
 // app/blog/[slug]/page.tsx
 import { Post } from "@/models/Post";
 import { notFound } from "next/navigation";
-import type { Metadata } from "next";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/auth";
 import CommentSection from "@/components/CommentSection";
@@ -32,27 +31,41 @@ async function getPostBySlug(slug: string): Promise<Post> {
  * Generate metadata for this blog post page.
  * Works ahead of rendering so social previews and titles are correct.
  */
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}): Promise<Metadata> {
-  const { slug } = await params;
-  const post = await getPostBySlug(slug);
+import { Metadata } from 'next';
 
-  const publishedAtDate =
-    post.publishedAt &&
-    (typeof post.publishedAt === "string" ? new Date(post.publishedAt) : post.publishedAt);
+type Props = {
+  params: { slug: string }
+}
 
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  // Fetch your post data
+  const post = await getPostBySlug(params.slug);
+  
   return {
     title: `${post.title} | Digital Drift`,
     description: post.excerpt,
+    metadataBase: new URL('https://digital-drift-blog.vercel.app'),
     openGraph: {
+      type: 'article',
       title: post.title,
       description: post.excerpt,
-      type: "article",
-      publishedTime: publishedAtDate ? publishedAtDate.toISOString() : undefined,
-      url: `/blog/${post.slug}`,
+      url: `https://digital-drift-blog.vercel.app/blog/${post.slug}`,
+      images: [
+        {
+          url: 'https://digital-drift-blog.vercel.app/og-image.png',
+          width: 1200,
+          height: 630,
+          alt: post.title,
+        }
+      ],
+      ...(post.publishedAt ? { publishedTime: post.publishedAt instanceof Date ? post.publishedAt.toISOString() : post.publishedAt } : {}),
+      authors: [post.author],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description: post.excerpt,
+      images: 'https://digital-drift-blog.vercel.app/og-image.png',
     },
   };
 }

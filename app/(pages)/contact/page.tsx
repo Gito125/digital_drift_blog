@@ -1,8 +1,21 @@
 import Link from 'next/link';
 
-export const metadata = {
-  title: 'Contact — Digital Drift',
-  description: 'Get in touch with Digital Drift. Questions, feedback, or collaboration ideas.',
+// Metadata
+import { Metadata } from 'next';
+import seoData from '@/config/seo-metadata.json';
+
+export const metadata: Metadata = {
+  title: seoData.metadata.pages['/contact'].title,
+  description: seoData.metadata.pages['/contact'].description,
+  keywords: seoData.metadata.pages['/contact'].keywords,
+  metadataBase: new URL(seoData.metadata.site.baseUrl),
+  openGraph: {
+    type: 'website',
+    siteName: seoData.metadata.site.name,
+    title: seoData.metadata.pages['/contact'].ogTitle,
+    description: seoData.metadata.pages['/contact'].ogDescription,
+    url: seoData.metadata.pages['/contact'].canonical
+  }
 };
 
 export default function ContactPage() {

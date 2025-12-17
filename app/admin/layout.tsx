@@ -9,7 +9,9 @@ export const metadata: Metadata = {
   description: seoData.metadata.pages['/admin'].description,
   alternates: {
     canonical: seoData.metadata.pages['/admin'].canonical
-  }
+  },
+  metadataBase: new URL(seoData.metadata.site.baseUrl),
+  robots: 'noindex'
 };
 
 export default function AdminLayout({

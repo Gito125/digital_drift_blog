@@ -13,12 +13,33 @@ export const metadata: Metadata = {
   description: seoData.metadata.pages['/'].description,
   keywords: seoData.metadata.pages['/'].keywords,
   openGraph: {
+    type: 'website',
+    siteName: seoData.metadata.site.name,
     title: seoData.metadata.pages['/'].ogTitle,
     description: seoData.metadata.pages['/'].ogDescription,
+    url: seoData.metadata.pages['/'].canonical,
+    images: [
+      {
+        url: 'https://digital-drift-blog.vercel.app/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: seoData.metadata.site.tagline,
+      }
+    ],
+    locale: 'en_US',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    site: seoData.metadata.site.twitterHandle,
+    creator: seoData.metadata.site.twitterHandle,
+    title: seoData.metadata.pages['/'].ogTitle,
+    description: seoData.metadata.pages['/'].ogDescription,
+    images: ['https://digital-drift-blog.vercel.app/og-image.png'],
   },
   alternates: {
     canonical: seoData.metadata.pages['/'].canonical
-  }
+  },
+  metadataBase: new URL(seoData.metadata.site.baseUrl),
 };
 
 import {

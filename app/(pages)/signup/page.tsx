@@ -14,7 +14,8 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: seoData.metadata.pages['/signup'].canonical
-  }
+  },
+  metadataBase: new URL(seoData.metadata.site.baseUrl),
 };
 
 export default function SignupPage() {

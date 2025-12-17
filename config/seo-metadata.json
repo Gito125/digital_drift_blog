@@ -19,7 +19,8 @@
       ],
       "author": "Digital Drift Team",
       "ogImage": "/og-image.png",
-      "twitterHandle": "@digitaldrift"
+      "twitterHandle": "@digitaldrift",
+      "baseUrl": "https://digital-drift-blog.vercel.app"
     },
     "pages": {
       "/": {
@@ -96,6 +97,20 @@
         ],
         "robots": "noindex, nofollow",
         "canonical": "https://digital-drift-blog.vercel.app/login"
+      },
+      "/contact": {
+        "title": "Contact Us - Get in Touch with Digital Drift",
+        "description": "Have questions or feedback? Contact the Digital Drift team for inquiries about our tech blog, tutorials, or collaboration opportunities.",
+        "keywords": [
+          "contact us",
+          "get in touch",
+          "digital drift support",
+          "feedback",
+          "inquiries"
+        ],
+        "ogTitle": "Contact Digital Drift - We're Here to Help",
+        "ogDescription": "Reach out to the Digital Drift team for any questions or feedback regarding our content and community.",
+        "canonical": "https://digital-drift-blog.vercel.app/contact"
       },
       "/signup": {
         "title": "Create Account - Join Digital Drift Community | Free Signup",

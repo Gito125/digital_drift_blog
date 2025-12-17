@@ -11,7 +11,8 @@ export const metadata: Metadata = {
   keywords: seoData.metadata.pages['/privacy'].keywords,
   alternates: {
     canonical: seoData.metadata.pages['/privacy'].canonical
-  }
+  },
+  metadataBase: new URL(seoData.metadata.site.baseUrl),
 };
 
 const PrivacyPage = () => {

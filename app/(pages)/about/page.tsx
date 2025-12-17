@@ -15,7 +15,8 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: seoData.metadata.pages['/about'].canonical
-  }
+  },
+  metadataBase: new URL(seoData.metadata.site.baseUrl),
 };
 
 const AboutPage = () => {

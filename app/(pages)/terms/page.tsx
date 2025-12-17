@@ -11,7 +11,8 @@ export const metadata: Metadata = {
   keywords: seoData.metadata.pages['/terms'].keywords,
   alternates: {
     canonical: seoData.metadata.pages['/terms'].canonical
-  }
+  },
+  metadataBase: new URL(seoData.metadata.site.baseUrl),
 };
 
 const TermsPage = () => {

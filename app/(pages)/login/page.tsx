@@ -10,7 +10,8 @@ export const metadata: Metadata = {
   keywords: seoData.metadata.pages['/login'].keywords,
   alternates: {
     canonical: seoData.metadata.pages['/login'].canonical
-  }
+  },
+  metadataBase: new URL(seoData.metadata.site.baseUrl),
 };
 
 export default function LoginPage() {

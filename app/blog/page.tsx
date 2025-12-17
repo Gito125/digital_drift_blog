@@ -1,15 +1,31 @@
 import { Post } from "@/models/Post";
 import Link from "next/link";
 import { formatNumber } from "@/lib/utils";
-import { Metadata } from "next";
 import BlogSearch from "@/components/blog/BlogSearch";
 import { Suspense } from "react";
 import clientPromise from "@/lib/mongodb";
 
+// MetaData
+import { Metadata } from 'next';
+import seoData from '@/config/seo-metadata.json';
+
 export const metadata: Metadata = {
-  title: "Blog - The Latest from Digital Drift",
-  description:
-    "Explore the latest articles, tutorials, and insights from Digital Drift. Stay updated on web development, tech trends, and our journey into the digital frontier.",
+  title: seoData.metadata.pages['/blog'].title,
+  description: seoData.metadata.pages['/blog'].description,
+  metadataBase: new URL('https://digital-drift-blog.vercel.app'),
+  openGraph: {
+    title: seoData.metadata.pages['/blog'].ogTitle,
+    description: seoData.metadata.pages['/blog'].ogDescription,
+    url: 'https://digital-drift-blog.vercel.app/blog',
+    images: [
+      {
+        url: 'https://digital-drift-blog.vercel.app/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Digital Drift Blog',
+      }
+    ],
+  },
 };
 
 /**

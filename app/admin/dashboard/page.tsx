@@ -11,7 +11,9 @@ import seoData from '@/config/seo-metadata.json';
 
 export const metadata: Metadata = {
   title: seoData.metadata.pages['/admin/dashboard'].title,
-  description: seoData.metadata.pages['/admin/dashboard'].description
+  description: seoData.metadata.pages['/admin/dashboard'].description,
+  metadataBase: new URL(seoData.metadata.site.baseUrl),
+  robots: 'noindex',
 };
 
 export default async function DashboardPage() {
