@@ -3,10 +3,10 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { existsSync } from "fs";
 
-// Load environment variables from .env.local
+// Load environment variables from .env.local you can adjust the path as needed e.g., .env
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const envPath = path.resolve(__dirname, "../.env.local");
+const envPath = path.resolve(__dirname, "../.env");
 console.log("Attempting to load environment variables from:", envPath);
 console.log("File exists:", existsSync(envPath));
 

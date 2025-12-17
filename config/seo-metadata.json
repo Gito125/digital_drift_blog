@@ -35,7 +35,7 @@
         ],
         "ogTitle": "Digital Drift - Your Guide to Modern Technology",
         "ogDescription": "Expert insights on web development, AI, and emerging technologies. Free tutorials and articles for developers.",
-        "canonical": "https://digitaldrift.com"
+        "canonical": "https://digital-drift-blog.vercel.app/"
       },
       "/about": {
         "title": "About Digital Drift - Our Mission & Team | Tech Blog",
@@ -49,7 +49,7 @@
         ],
         "ogTitle": "About Digital Drift - Empowering Developers Worldwide",
         "ogDescription": "Discover our mission to make advanced technology accessible through expert articles and tutorials.",
-        "canonical": "https://digitaldrift.com/about"
+        "canonical": "https://digital-drift-blog.vercel.app/about"
       },
       "/blog": {
         "title": "Tech Blog Articles & Tutorials | Digital Drift",
@@ -64,7 +64,7 @@
         ],
         "ogTitle": "Latest Tech Articles & Developer Tutorials",
         "ogDescription": "Explore hundreds of in-depth articles on modern web development, AI, cloud platforms, and emerging technologies.",
-        "canonical": "https://digitaldrift.com/blog"
+        "canonical": "https://digital-drift-blog.vercel.app/blog"
       },
       "/blog/[slug]": {
         "title": "{post.title} | Digital Drift",
@@ -82,7 +82,7 @@
         "articlePublishedTime": "{post.publishedAt}",
         "articleAuthor": "{post.author}",
         "articleSection": "{post.category}",
-        "canonical": "https://digitaldrift.com/blog/{post.slug}"
+        "canonical": "https://digital-drift-blog.vercel.app/blog/{post.slug}"
       },
       "/login": {
         "title": "Sign In to Digital Drift - Access Your Account",
@@ -95,7 +95,7 @@
           "member access"
         ],
         "robots": "noindex, nofollow",
-        "canonical": "https://digitaldrift.com/login"
+        "canonical": "https://digital-drift-blog.vercel.app/login"
       },
       "/signup": {
         "title": "Create Account - Join Digital Drift Community | Free Signup",
@@ -110,7 +110,7 @@
         ],
         "ogTitle": "Join Digital Drift - Free Developer Community",
         "ogDescription": "Create your account and join thousands of developers exploring cutting-edge technology together.",
-        "canonical": "https://digitaldrift.com/signup"
+        "canonical": "https://digital-drift-blog.vercel.app/signup"
       },
       "/privacy": {
         "title": "Privacy Policy - How We Protect Your Data | Digital Drift",
@@ -124,7 +124,7 @@
           "privacy rights"
         ],
         "robots": "noindex, follow",
-        "canonical": "https://digitaldrift.com/privacy"
+        "canonical": "https://digital-drift-blog.vercel.app/privacy"
       },
       "/terms": {
         "title": "Terms of Service - User Agreement | Digital Drift",
@@ -137,13 +137,13 @@
           "legal terms"
         ],
         "robots": "noindex, follow",
-        "canonical": "https://digitaldrift.com/terms"
+        "canonical": "https://digital-drift-blog.vercel.app/terms"
       },
       "/admin": {
         "title": "Admin Dashboard - Digital Drift Content Management",
         "description": "Admin dashboard for managing Digital Drift content, users, comments, and analytics. Authorized access only.",
         "robots": "noindex, nofollow",
-        "canonical": "https://digitaldrift.com/admin/dashboard"
+        "canonical": "https://digital-drift-blog.vercel.app/admin/dashboard"
       },
       "/admin/dashboard": {
         "title": "Dashboard Overview - Admin Panel | Digital Drift",
@@ -194,8 +194,8 @@
       "@context": "https://schema.org",
       "@type": "Organization",
       "name": "Digital Drift",
-      "url": "https://digitaldrift.com",
-      "logo": "https://digitaldrift.com/logo.png",
+      "url": "https://digital-drift-blog.vercel.app/",
+      "logo": "https://digital-drift-blog.vercel.app/logo.png",
       "description": "A cutting-edge technology blog covering web development, AI, cloud computing, and emerging technologies.",
       "sameAs": [
         "https://twitter.com/digitaldrift",
@@ -212,11 +212,11 @@
       "@context": "https://schema.org",
       "@type": "WebSite",
       "name": "Digital Drift",
-      "url": "https://digitaldrift.com",
+      "url": "https://digital-drift-blog.vercel.app/",
       "description": "Expert insights on web development, AI, and emerging technologies",
       "potentialAction": {
         "@type": "SearchAction",
-        "target": "https://digitaldrift.com/search?q={search_term_string}",
+        "target": "https://digital-drift-blog.vercel.app/search?q={search_term_string}",
         "query-input": "required name=search_term_string"
       }
     },
@@ -224,14 +224,14 @@
       "@context": "https://schema.org",
       "@type": "Blog",
       "name": "Digital Drift Blog",
-      "url": "https://digitaldrift.com/blog",
+      "url": "https://digital-drift-blog.vercel.app/blog",
       "description": "Tech articles and tutorials on web development, AI, and emerging technologies",
       "publisher": {
         "@type": "Organization",
         "name": "Digital Drift",
         "logo": {
           "@type": "ImageObject",
-          "url": "https://digitaldrift.com/logo.png"
+          "url": "https://digital-drift-blog.vercel.app/logo.png"
         }
       }
     },
@@ -252,12 +252,12 @@
         "name": "Digital Drift",
         "logo": {
           "@type": "ImageObject",
-          "url": "https://digitaldrift.com/logo.png"
+          "url": "https://digital-drift-blog.vercel.app/logo.png"
         }
       },
       "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": "https://digitaldrift.com/blog/{post.slug}"
+        "@id": "https://digital-drift-blog.vercel.app/blog/{post.slug}"
       },
       "articleSection": "{post.category}",
       "keywords": "{post.tags}"
@@ -270,7 +270,7 @@
       "locale": "en_US",
       "images": [
         {
-          "url": "https://digitaldrift.com/og-image.png",
+          "url": "https://digital-drift-blog.vercel.app/og-image.png",
           "width": 1200,
           "height": 630,
           "alt": "Digital Drift - Exploring the Digital Frontier"
@@ -286,32 +286,32 @@
   "alternateLanguages": [
     {
       "lang": "en",
-      "url": "https://digitaldrift.com"
+      "url": "https://digital-drift-blog.vercel.app/"
     }
   ],
   "breadcrumbs": {
     "/blog": [
       {
         "name": "Home",
-        "url": "https://digitaldrift.com"
+        "url": "https://digital-drift-blog.vercel.app/"
       },
       {
         "name": "Blog",
-        "url": "https://digitaldrift.com/blog"
+        "url": "https://digital-drift-blog.vercel.app/blog"
       }
     ],
     "/blog/[slug]": [
       {
         "name": "Home",
-        "url": "https://digitaldrift.com"
+        "url": "https://digital-drift-blog.vercel.app/"
       },
       {
         "name": "Blog",
-        "url": "https://digitaldrift.com/blog"
+        "url": "https://digital-drift-blog.vercel.app/blog"
       },
       {
         "name": "{post.title}",
-        "url": "https://digitaldrift.com/blog/{post.slug}"
+        "url": "https://digital-drift-blog.vercel.app/blog/{post.slug}"
       }
     ]
   }
