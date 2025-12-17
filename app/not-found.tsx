@@ -49,7 +49,7 @@ export default function NotFound() {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-3">
-            <Link href="/" className="flex-1 px-6 py-3 bg-accent text-background rounded-xl hover:opacity-90 transition-all font-semibold shadow-lg text-center">Go Home</Link>
+            <Link href="/" className="flex-1 px-6 py-3 bg-accent text-white rounded-xl hover:opacity-90 transition-all font-semibold shadow-lg text-center">Go Home</Link>
             <Link href="/contact" className="flex-1 px-6 py-3 bg-background border-2 border-foreground/20 text-foreground rounded-xl hover:border-accent hover:bg-accent/5 transition-all font-semibold shadow-lg text-center">Contact Support</Link>
           </div>
         </div>
