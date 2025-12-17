@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
-import localFont from 'next/font/local';
 import { getServerSession } from "next-auth/next";
 import Providers from './providers';
 import { authOptions } from "@/auth";
 import Header from '@/components/Header';
-import "./globals.css";
+import "./styles/globals.css";
 
 import {
   Poppins,

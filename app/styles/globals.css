@@ -1,0 +1,77 @@
+@import "tailwindcss";
+@import "./MarkDownStyles.css";
+
+@theme {
+  /* Define color tokens */
+  --color-bg-light: #f7f7ff;
+  --color-bg-dark: #1a1a2e;
+  --color-text-light: #1a1a1a;
+  --color-text-dark: #f7f7ff;
+  --color-accent: #27187e;
+  --color-accent-dark: #1e1161;
+  
+  /* Opacity variants for foreground/accent colors */
+  --color-foreground-5: color-mix(in srgb, var(--color-text-light) 5%, transparent);
+  --color-foreground-10: color-mix(in srgb, var(--color-text-light) 10%, transparent);
+  --color-foreground-20: color-mix(in srgb, var(--color-text-light) 20%, transparent);
+  --color-foreground-30: color-mix(in srgb, var(--color-text-light) 30%, transparent);
+  --color-foreground-40: color-mix(in srgb, var(--color-text-light) 40%, transparent);
+  --color-foreground-60: color-mix(in srgb, var(--color-text-light) 60%, transparent);
+  --color-foreground-70: color-mix(in srgb, var(--color-text-light) 70%, transparent);
+  --color-foreground-80: color-mix(in srgb, var(--color-text-light) 80%, transparent);
+  --color-foreground-90: color-mix(in srgb, var(--color-text-light) 90%, transparent);
+  
+  --color-accent-5: color-mix(in srgb, var(--color-accent) 5%, transparent);
+  --color-accent-10: color-mix(in srgb, var(--color-accent) 10%, transparent);
+  --color-accent-20: color-mix(in srgb, var(--color-accent) 20%, transparent);
+  --color-accent-30: color-mix(in srgb, var(--color-accent) 30%, transparent);
+  --color-accent-40: color-mix(in srgb, var(--color-accent) 40%, transparent);
+  --color-accent-50: color-mix(in srgb, var(--color-accent) 50%, transparent);
+  --color-accent-70: color-mix(in srgb, var(--color-accent) 70%, transparent);
+  --color-accent-80: color-mix(in srgb, var(--color-accent) 80%, transparent);
+  --color-accent-90: color-mix(in srgb, var(--color-accent) 90%, transparent);
+}
+
+/* Map to Tailwind's color system */
+@layer base {
+  :root {
+    --color-background: var(--color-bg-light);
+    --color-foreground: var(--color-text-light);
+    --color-primary: var(--color-accent);
+    --code-fg: var(--color-accent); /*  */
+  }
+
+  .dark {
+    --color-background: var(--color-bg-dark);
+    --color-foreground: var(--color-text-dark);
+    --color-primary: var(--color-accent-dark);
+    --code-fg: #dbdbdb; /*  */
+    
+    /* Dark mode opacity variants */
+    --color-foreground-5: color-mix(in srgb, var(--color-text-dark) 5%, transparent);
+    --color-foreground-10: color-mix(in srgb, var(--color-text-dark) 10%, transparent);
+    --color-foreground-20: color-mix(in srgb, var(--color-text-dark) 20%, transparent);
+    --color-foreground-30: color-mix(in srgb, var(--color-text-dark) 30%, transparent);
+    --color-foreground-40: color-mix(in srgb, var(--color-text-dark) 40%, transparent);
+    --color-foreground-60: color-mix(in srgb, var(--color-text-dark) 60%, transparent);
+    --color-foreground-70: color-mix(in srgb, var(--color-text-dark) 70%, transparent);
+    --color-foreground-80: color-mix(in srgb, var(--color-text-dark) 80%, transparent);
+    --color-foreground-90: color-mix(in srgb, var(--color-text-dark) 90%, transparent);
+    
+    --color-accent-5: color-mix(in srgb, var(--color-accent-dark) 5%, transparent);
+    --color-accent-10: color-mix(in srgb, var(--color-accent-dark) 10%, transparent);
+    --color-accent-20: color-mix(in srgb, var(--color-accent-dark) 20%, transparent);
+    --color-accent-30: color-mix(in srgb, var(--color-accent-dark) 30%, transparent);
+    --color-accent-40: color-mix(in srgb, var(--color-accent-dark) 40%, transparent);
+    --color-accent-50: color-mix(in srgb, var(--color-accent-dark) 50%, transparent);
+    --color-accent-70: color-mix(in srgb, var(--color-accent-dark) 70%, transparent);
+    --color-accent-80: color-mix(in srgb, var(--color-accent-dark) 80%, transparent);
+    --color-accent-90: color-mix(in srgb, var(--color-accent-dark) 90%, transparent);
+  }
+}
+
+body {
+  background-color: rgb(var(--color-background));
+  color: rgb(var(--color-foreground));
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
