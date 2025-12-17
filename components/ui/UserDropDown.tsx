@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { SetStateAction } from 'react'
 import AdminMenu from './AdminMenu'
 import { Session } from 'next-auth'
 
@@ -9,6 +9,8 @@ interface UserDropDownProps {
 }
 
 export default function UserDropDown({session, handleLogout, setDropDownOpen}: UserDropDownProps) {
+    if (!session) return null
+
     return (
         <>
             <div className="absolute right-0 mt-2 w-56  border border-foreground/10 rounded-xl shadow-xl py-2 z-50 animate-fadeIn">
@@ -17,7 +19,7 @@ export default function UserDropDown({session, handleLogout, setDropDownOpen}: U
                     <p className="font-semibold text-foreground truncate">{session.user.email}</p>
                 </div>
                 <div className="py-1">
-                    <AdminMenu session={session} closeMenu={() => setDropdownOpen(false)} />
+                    <AdminMenu session={session} closeMenu={() => setDropDownOpen(false)} />
                 </div>
                 <div className="py-1 ">
                     <button

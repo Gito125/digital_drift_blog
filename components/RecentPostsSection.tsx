@@ -50,7 +50,7 @@ export default function RecentPostsSection() {
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
       {posts.length > 0 ? (
         posts.map((post) => (
-          <div key={post._id} className="bg-background border border-foreground/10 rounded-xl shadow-md overflow-hidden hover:shadow-lg hover:border-accent/50 transition-all group">
+          <div key={post._id.toString()} className="bg-background border border-foreground/10 rounded-xl shadow-md overflow-hidden hover:shadow-lg hover:border-accent/50 transition-all group">
             <div className="p-6">
               <h3 className="text-xl font-heading font-semibold mb-2 text-foreground group-hover:text-accent transition-colors">{post.title}</h3>
               <p className="text-foreground/70 text-sm mb-2 line-clamp-2">{post.excerpt}</p>

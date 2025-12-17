@@ -43,7 +43,6 @@ export default async function Markdown({ content }: { content: string }) {
       },
     })
     .use(rehypeReact, {
-      // @ts-expect-error: React types mismatch
       ...prod,
       components: {
         // ENHANCED PRE/CODE BLOCKS (using Client Component)
