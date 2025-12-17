@@ -1,11 +1,18 @@
 import FooterSection from "@/components/main/FooterSection";
 import AnimatedGradientOrbs from "@/components/ui/AnimatedGradientOrbs";
 import GridPatternOverlay from "@/components/ui/GridPatternOverlay";
+
+// Metadata
 import { Metadata } from 'next';
+import seoData from '@/config/seo-metadata.json';
 
 export const metadata: Metadata = {
-  title: "Terms of Service",
-  description: "Review the Terms of Service for Digital Drift. Understand the rules and guidelines for using our website and community.",
+  title: seoData.metadata.pages['/terms'].title,
+  description: seoData.metadata.pages['/terms'].description,
+  keywords: seoData.metadata.pages['/terms'].keywords,
+  alternates: {
+    canonical: seoData.metadata.pages['/terms'].canonical
+  }
 };
 
 const TermsPage = () => {

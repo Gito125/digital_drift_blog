@@ -1,0 +1,318 @@
+{
+  "metadata": {
+    "site": {
+      "name": "Digital Drift",
+      "tagline": "Exploring the Digital Frontier",
+      "description": "A cutting-edge tech blog covering web development, AI, cloud computing, and emerging technologies. Stay ahead with expert insights and tutorials.",
+      "keywords": [
+        "web development",
+        "technology blog",
+        "programming tutorials",
+        "AI",
+        "machine learning",
+        "Next.js",
+        "React",
+        "TypeScript",
+        "cloud computing",
+        "DevOps",
+        "software engineering"
+      ],
+      "author": "Digital Drift Team",
+      "ogImage": "/og-image.png",
+      "twitterHandle": "@digitaldrift"
+    },
+    "pages": {
+      "/": {
+        "title": "Digital Drift - Exploring the Digital Frontier | Tech Blog & Tutorials",
+        "description": "Discover cutting-edge insights on web development, AI, cloud computing, and emerging technologies. Join developers learning from expert tutorials and in-depth articles.",
+        "keywords": [
+          "tech blog",
+          "web development blog",
+          "programming tutorials",
+          "software development",
+          "technology news",
+          "coding resources"
+        ],
+        "ogTitle": "Digital Drift - Your Guide to Modern Technology",
+        "ogDescription": "Expert insights on web development, AI, and emerging technologies. Free tutorials and articles for developers.",
+        "canonical": "https://digitaldrift.com"
+      },
+      "/about": {
+        "title": "About Digital Drift - Our Mission & Team | Tech Blog",
+        "description": "Learn about Digital Drift's mission to democratize tech knowledge. Meet our team of expert developers and writers passionate about sharing cutting-edge insights.",
+        "keywords": [
+          "about us",
+          "digital drift team",
+          "tech blog mission",
+          "developer community",
+          "technology education"
+        ],
+        "ogTitle": "About Digital Drift - Empowering Developers Worldwide",
+        "ogDescription": "Discover our mission to make advanced technology accessible through expert articles and tutorials.",
+        "canonical": "https://digitaldrift.com/about"
+      },
+      "/blog": {
+        "title": "Tech Blog Articles & Tutorials | Digital Drift",
+        "description": "Browse our comprehensive collection of tech articles covering web development, AI, cloud computing, DevOps, and more. New tutorials added weekly.",
+        "keywords": [
+          "tech articles",
+          "programming tutorials",
+          "web development guides",
+          "software engineering blog",
+          "coding tutorials",
+          "technology insights"
+        ],
+        "ogTitle": "Latest Tech Articles & Developer Tutorials",
+        "ogDescription": "Explore hundreds of in-depth articles on modern web development, AI, cloud platforms, and emerging technologies.",
+        "canonical": "https://digitaldrift.com/blog"
+      },
+      "/blog/[slug]": {
+        "title": "{post.title} | Digital Drift",
+        "description": "{post.excerpt}",
+        "keywords": [
+          "{post.tags}",
+          "tutorial",
+          "guide",
+          "how-to",
+          "programming"
+        ],
+        "ogTitle": "{post.title}",
+        "ogDescription": "{post.excerpt}",
+        "ogType": "article",
+        "articlePublishedTime": "{post.publishedAt}",
+        "articleAuthor": "{post.author}",
+        "articleSection": "{post.category}",
+        "canonical": "https://digitaldrift.com/blog/{post.slug}"
+      },
+      "/login": {
+        "title": "Sign In to Digital Drift - Access Your Account",
+        "description": "Sign in to your Digital Drift account to comment on articles, save your favorite posts, and join our community of 10,000+ tech enthusiasts.",
+        "keywords": [
+          "login",
+          "sign in",
+          "user account",
+          "digital drift login",
+          "member access"
+        ],
+        "robots": "noindex, nofollow",
+        "canonical": "https://digitaldrift.com/login"
+      },
+      "/signup": {
+        "title": "Create Account - Join Digital Drift Community | Free Signup",
+        "description": "Create your free Digital Drift account to unlock exclusive features: comment on articles, save posts, and connect with fellow developers. Join 10,000+ members today!",
+        "keywords": [
+          "sign up",
+          "create account",
+          "register",
+          "join community",
+          "free membership",
+          "developer community"
+        ],
+        "ogTitle": "Join Digital Drift - Free Developer Community",
+        "ogDescription": "Create your account and join thousands of developers exploring cutting-edge technology together.",
+        "canonical": "https://digitaldrift.com/signup"
+      },
+      "/privacy": {
+        "title": "Privacy Policy - How We Protect Your Data | Digital Drift",
+        "description": "Read Digital Drift's privacy policy to understand how we collect, use, and protect your personal information. We're committed to your privacy and data security.",
+        "keywords": [
+          "privacy policy",
+          "data protection",
+          "user privacy",
+          "GDPR compliance",
+          "data security",
+          "privacy rights"
+        ],
+        "robots": "noindex, follow",
+        "canonical": "https://digitaldrift.com/privacy"
+      },
+      "/terms": {
+        "title": "Terms of Service - User Agreement | Digital Drift",
+        "description": "Review Digital Drift's terms of service outlining user rights, content guidelines, and platform usage policies. Last updated December 2024.",
+        "keywords": [
+          "terms of service",
+          "user agreement",
+          "terms and conditions",
+          "usage policy",
+          "legal terms"
+        ],
+        "robots": "noindex, follow",
+        "canonical": "https://digitaldrift.com/terms"
+      },
+      "/admin": {
+        "title": "Admin Dashboard - Digital Drift Content Management",
+        "description": "Admin dashboard for managing Digital Drift content, users, comments, and analytics. Authorized access only.",
+        "robots": "noindex, nofollow",
+        "canonical": "https://digitaldrift.com/admin/dashboard"
+      },
+      "/admin/dashboard": {
+        "title": "Dashboard Overview - Admin Panel | Digital Drift",
+        "description": "View site statistics, recent activity, and key metrics for Digital Drift. Manage your content at a glance.",
+        "robots": "noindex, nofollow"
+      },
+      "/admin/posts": {
+        "title": "Manage Posts - Admin Panel | Digital Drift",
+        "description": "Create, edit, and manage blog posts. View all articles, drafts, and published content in one place.",
+        "robots": "noindex, nofollow"
+      },
+      "/admin/posts/new": {
+        "title": "Create New Post - Admin Panel | Digital Drift",
+        "description": "Write and publish a new blog post with our advanced markdown editor. Add images, code blocks, and more.",
+        "robots": "noindex, nofollow"
+      },
+      "/admin/posts/[id]/edit": {
+        "title": "Edit Post - Admin Panel | Digital Drift",
+        "description": "Edit existing blog post content, metadata, and settings. Update published articles or manage drafts.",
+        "robots": "noindex, nofollow"
+      },
+      "/admin/categories": {
+        "title": "Manage Categories - Admin Panel | Digital Drift",
+        "description": "Create and manage content categories for organizing blog posts. Edit category names, slugs, and descriptions.",
+        "robots": "noindex, nofollow"
+      },
+      "/admin/comments": {
+        "title": "Moderate Comments - Admin Panel | Digital Drift",
+        "description": "Review, approve, and manage user comments across all blog posts. Maintain community standards.",
+        "robots": "noindex, nofollow"
+      },
+      "/theme-demo": {
+        "title": "Theme Demo - UI Components Showcase | Digital Drift",
+        "description": "Explore Digital Drift's design system including typography, colors, components, and interactive elements. A showcase for developers.",
+        "keywords": [
+          "design system",
+          "UI components",
+          "theme showcase",
+          "web design",
+          "component library"
+        ],
+        "robots": "noindex, follow"
+      }
+    }
+  },
+  "structuredData": {
+    "organization": {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Digital Drift",
+      "url": "https://digitaldrift.com",
+      "logo": "https://digitaldrift.com/logo.png",
+      "description": "A cutting-edge technology blog covering web development, AI, cloud computing, and emerging technologies.",
+      "sameAs": [
+        "https://twitter.com/digitaldrift",
+        "https://github.com/digitaldrift",
+        "https://linkedin.com/company/digitaldrift"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "Customer Service",
+        "email": "contact@digitaldrift.com"
+      }
+    },
+    "website": {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Digital Drift",
+      "url": "https://digitaldrift.com",
+      "description": "Expert insights on web development, AI, and emerging technologies",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://digitaldrift.com/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    },
+    "blog": {
+      "@context": "https://schema.org",
+      "@type": "Blog",
+      "name": "Digital Drift Blog",
+      "url": "https://digitaldrift.com/blog",
+      "description": "Tech articles and tutorials on web development, AI, and emerging technologies",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Digital Drift",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://digitaldrift.com/logo.png"
+        }
+      }
+    },
+    "article": {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "{post.title}",
+      "description": "{post.excerpt}",
+      "image": "{post.coverImage}",
+      "datePublished": "{post.publishedAt}",
+      "dateModified": "{post.updatedAt}",
+      "author": {
+        "@type": "Person",
+        "name": "{post.author}"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Digital Drift",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://digitaldrift.com/logo.png"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://digitaldrift.com/blog/{post.slug}"
+      },
+      "articleSection": "{post.category}",
+      "keywords": "{post.tags}"
+    }
+  },
+  "openGraph": {
+    "default": {
+      "type": "website",
+      "siteName": "Digital Drift",
+      "locale": "en_US",
+      "images": [
+        {
+          "url": "https://digitaldrift.com/og-image.png",
+          "width": 1200,
+          "height": 630,
+          "alt": "Digital Drift - Exploring the Digital Frontier"
+        }
+      ]
+    }
+  },
+  "twitter": {
+    "card": "summary_large_image",
+    "site": "@digitaldrift",
+    "creator": "@digitaldrift"
+  },
+  "alternateLanguages": [
+    {
+      "lang": "en",
+      "url": "https://digitaldrift.com"
+    }
+  ],
+  "breadcrumbs": {
+    "/blog": [
+      {
+        "name": "Home",
+        "url": "https://digitaldrift.com"
+      },
+      {
+        "name": "Blog",
+        "url": "https://digitaldrift.com/blog"
+      }
+    ],
+    "/blog/[slug]": [
+      {
+        "name": "Home",
+        "url": "https://digitaldrift.com"
+      },
+      {
+        "name": "Blog",
+        "url": "https://digitaldrift.com/blog"
+      },
+      {
+        "name": "{post.title}",
+        "url": "https://digitaldrift.com/blog/{post.slug}"
+      }
+    ]
+  }
+}

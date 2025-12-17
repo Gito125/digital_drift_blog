@@ -5,6 +5,15 @@
 
 import DashboardStats from "@/components/admin/DashboardStats";
 
+// Metadata
+import { Metadata } from 'next';
+import seoData from '@/config/seo-metadata.json';
+
+export const metadata: Metadata = {
+  title: seoData.metadata.pages['/admin/dashboard'].title,
+  description: seoData.metadata.pages['/admin/dashboard'].description
+};
+
 export default async function DashboardPage() {
   return (
     <div className="space-y-8">

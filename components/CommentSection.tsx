@@ -163,7 +163,7 @@ export default function CommentSection({ postId }: CommentSectionProps) {
             const initial = firstName ? firstName.charAt(0).toUpperCase() : 'U';
 
             return (
-              <div key={comment._id} className={`p-4 border border-border rounded-lg ${!comment.approved ? 'opacity-70 bg-muted/20' : ''}`}>
+              <div key={comment._id.toString()} className={`p-4 border border-border rounded-lg ${!comment.approved ? 'opacity-70 bg-muted/20' : ''}`}>
                 <div className="flex items-start gap-3">
                   <div className="flex-shrink-0 w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center">
                     <span className="text-accent font-semibold text-sm">

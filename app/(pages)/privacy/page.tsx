@@ -1,11 +1,18 @@
 import FooterSection from "@/components/main/FooterSection";
 import AnimatedGradientOrbs from "@/components/ui/AnimatedGradientOrbs";
 import GridPatternOverlay from "@/components/ui/GridPatternOverlay";
+
+// Metadata
 import { Metadata } from 'next';
+import seoData from '@/config/seo-metadata.json';
 
 export const metadata: Metadata = {
-  title: "Privacy Policy",
-  description: "Read the Digital Drift privacy policy. We are committed to protecting your personal information and being transparent about the data we collect.",
+  title: seoData.metadata.pages['/privacy'].title,
+  description: seoData.metadata.pages['/privacy'].description,
+  keywords: seoData.metadata.pages['/privacy'].keywords,
+  alternates: {
+    canonical: seoData.metadata.pages['/privacy'].canonical
+  }
 };
 
 const PrivacyPage = () => {

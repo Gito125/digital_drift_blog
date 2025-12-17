@@ -1,9 +1,16 @@
-import { Metadata } from 'next';
 import LoginClient from './login-client';
 
+// Metadata
+import { Metadata } from 'next';
+import seoData from '@/config/seo-metadata.json';
+
 export const metadata: Metadata = {
-  title: "Sign In to Digital Drift",
-  description: "Access your Digital Drift account. Sign in to join the conversation, manage your profile, and engage with our community.",
+  title: seoData.metadata.pages['/login'].title,
+  description: seoData.metadata.pages['/login'].description,
+  keywords: seoData.metadata.pages['/login'].keywords,
+  alternates: {
+    canonical: seoData.metadata.pages['/login'].canonical
+  }
 };
 
 export default function LoginPage() {

@@ -1,9 +1,25 @@
-import type { Metadata } from "next";
 import { getServerSession } from "next-auth/next";
 import Providers from './providers';
 import { authOptions } from "@/auth";
 import Header from '@/components/Header';
 import "./styles/globals.css";
+
+// Metadata
+import { Metadata } from 'next';
+import seoData from '@/config/seo-metadata.json';
+
+export const metadata: Metadata = {
+  title: seoData.metadata.pages['/'].title,
+  description: seoData.metadata.pages['/'].description,
+  keywords: seoData.metadata.pages['/'].keywords,
+  openGraph: {
+    title: seoData.metadata.pages['/'].ogTitle,
+    description: seoData.metadata.pages['/'].ogDescription,
+  },
+  alternates: {
+    canonical: seoData.metadata.pages['/'].canonical
+  }
+};
 
 import {
   Poppins,
@@ -49,13 +65,6 @@ export const emilio = Raleway({
   display: 'swap',
 });
 
-export const metadata: Metadata = {
-  title: {
-    default: "Digital Drift - Exploring the Digital Frontier",
-    template: "%s | Digital Drift",
-  },
-  description: "Dive into the digital frontier with Digital Drift, a modern blog exploring the latest in technology, software development, and the digital world. Join us on our journey of discovery.",
-};
 
 export default async function RootLayout({
   children,

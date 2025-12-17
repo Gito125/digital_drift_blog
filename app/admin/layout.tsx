@@ -1,12 +1,15 @@
-import type { Metadata } from 'next';
 import AdminLayoutClient from './admin-layout-client';
 
+// Metadata
+import { Metadata } from 'next';
+import seoData from '@/config/seo-metadata.json';
+
 export const metadata: Metadata = {
-  title: 'Admin Dashboard',
-  robots: {
-    index: false,
-    follow: false,
-  },
+  title: seoData.metadata.pages['/admin'].title,
+  description: seoData.metadata.pages['/admin'].description,
+  alternates: {
+    canonical: seoData.metadata.pages['/admin'].canonical
+  }
 };
 
 export default function AdminLayout({

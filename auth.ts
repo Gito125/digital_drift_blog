@@ -28,7 +28,7 @@ export const authOptions: NextAuthOptions = {
         if (user && user.password) { // Ensure user and user.password exist
           const isValid = await bcrypt.compare(credentials.password, user.password);
           if (isValid) {
-            return { id: user._id, name: user.name, email: user.email, role: user.role };
+            return { id: user._id.toString(), name: user.name, email: user.email, role: user.role };
           }
         }
         return null;
