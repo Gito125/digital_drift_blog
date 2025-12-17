@@ -71,7 +71,8 @@ export default function CommentSection({ postId }: CommentSectionProps) {
         body: JSON.stringify({
           postId,
           content: newComment,
-          userId: session?.user?.id
+          userId: session?.user?.id,
+          approved: true, // Automatically approve comments from logged-in users
         }),
       });
 
@@ -177,14 +178,14 @@ export default function CommentSection({ postId }: CommentSectionProps) {
                           ? 'You'
                           : firstName}
                       </p>
-                      {!comment.approved && (
+                      {/* {!comment.approved && (
                         <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-500/15 text-amber-600 dark:text-amber-400">
                           Pending
                         </span>
-                      )}
+                      )} */}
                     </div>
-                    <p className="text-foreground/80 mb-2">{comment.content}</p>
-                    <p className="text-xs text-foreground/60">
+                    <p className="text-foreground mb-2">{comment.content}</p>
+                    <p className="text-xs text-foreground">
                       {typeof comment.createdAt === 'string' ?
                         new Date(comment.createdAt).toLocaleDateString('en-US', {
                           year: 'numeric',
