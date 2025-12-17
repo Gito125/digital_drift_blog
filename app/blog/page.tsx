@@ -1,4 +1,3 @@
-import FooterSection from "@/components/main/FooterSection";
 import { Post } from "@/models/Post";
 import Link from "next/link";
 import { formatNumber } from "@/lib/utils";
@@ -121,9 +120,6 @@ export default async function BlogPage(props: { searchParams: Promise<{ page?: s
           )}
         </div>
       </div>
-
-      {/* Footer - Section */}
-      <FooterSection />
     </div>
   );
 }

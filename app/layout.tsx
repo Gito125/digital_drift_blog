@@ -28,6 +28,7 @@ import {
   Playfair_Display,
   Raleway,
 } from 'next/font/google';
+import FooterSection from "@/components/main/FooterSection";
 
 export const azurio = Poppins({
   weight: ['800'],        // ExtraBold replacement
@@ -84,6 +85,9 @@ export default async function RootLayout({
             {children}
           </main>
         </Providers>
+
+        {/* Footer Section */}
+        <FooterSection />
       </body>
     </html>
   );

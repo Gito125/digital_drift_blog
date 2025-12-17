@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/auth';
 import RecentPostsSection from '@/components/RecentPostsSection';
@@ -7,7 +6,6 @@ import FeaturesSection from '@/components/main/FeaturesSection';
 import TopicsSection from '@/components/main/TopicsSection';
 import { TechnologyStackSection } from '@/components/main/TechnologyStackSection';
 import CTA_Section from '@/components/main/CTA_Section';
-import FooterSection from '@/components/main/FooterSection';
 import CTA_Button from '@/components/ui/CTA_Button';
 
 /**
@@ -63,9 +61,6 @@ export default async function HomePage() {
 
       {/* Call to Action Section - Enhanced CTA styling */}
       <CTA_Section session={session} />
-
-      {/* Footer Section */}
-      <FooterSection />
     </div>
   );
 }

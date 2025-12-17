@@ -1,4 +1,3 @@
-import FooterSection from "@/components/main/FooterSection";
 import AnimatedGradientOrbs from "@/components/ui/AnimatedGradientOrbs";
 import GridPatternOverlay from "@/components/ui/GridPatternOverlay";
 
@@ -49,7 +48,6 @@ const TermsPage = () => {
           </div>
         </div>
       </main>
-      <FooterSection />
     </div>
   );
 };

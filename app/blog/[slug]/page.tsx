@@ -6,7 +6,6 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/auth";
 import CommentSection from "@/components/CommentSection";
 import ShareButtons from "@/components/ShareButtons";
-import FooterSection from "@/components/main/FooterSection";
 import { formatNumber } from "@/lib/utils";
 import Markdown from "@/components/md/Markdown";
 
@@ -183,9 +182,6 @@ export default async function BlogPostPage({
           </div>
         </div>
       </div>
-
-      {/* Footer */}
-      <FooterSection />
     </div>
   );
 }
