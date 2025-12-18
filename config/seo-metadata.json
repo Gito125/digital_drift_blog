@@ -20,7 +20,7 @@
       "author": "Digital Drift Team",
       "ogImage": "/og-image.png",
       "twitterHandle": "@digitaldrift",
-      "baseUrl": "https://digital-drift-blog.vercel.app"
+      "baseUrl": "https://digital-drift-blog.vercel.app/"
     },
     "pages": {
       "/": {
