@@ -5,7 +5,7 @@ import { useSession, signOut } from 'next-auth/react';
 import ThemeToggle from './ThemeProvider';
 import MobileMenu from './ui/MobileMenu';
 import AdminMenu from './ui/AdminMenu';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 
 /**
@@ -18,6 +18,25 @@ export default function Header() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  // Click outside handler
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setDropdownOpen(false);
+      }
+    }
+
+    // Only add listener if dropdown is open
+    if (dropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    // Cleanup
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [dropdownOpen]);
+
   const handleLogout = async () => {
     await signOut({ redirect: true, callbackUrl: '/' });
     setDropdownOpen(false);
@@ -29,7 +48,7 @@ export default function Header() {
       <nav className="sticky top-0 z-40 py-4 md:py-6 border-b border-foreground/10 bg-background/80 backdrop-blur-md">
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center">
-            <Link href="/" className="text-2xl font-heading font-bold bg-gradient-to-r from-accent to-accent/80 bg-clip-text text-transparent hover:opacity-80 transition-opacity">
+            <Link href="/" className="text-2xl font-heading font-bold bg-linear-to-r from-accent to-accent/80 bg-clip-text text-transparent hover:opacity-80 transition-opacity">
               Digital Drift
             </Link>
 
@@ -60,7 +79,7 @@ export default function Header() {
                   </button>
 
                   {dropdownOpen && (
-                    <div className="absolute right-0 mt-2 w-56 bg-background border border-foreground/10 rounded-xl shadow-xl py-2 z-50 animate-fadeIn">
+                    <div className="absolute right-0 mt-2 w-56 bg-linear-to-b from-accent/70 to-accent/90 text-white border border-foreground/10 rounded-xl shadow-xl py-2 z-50 animate-fadeIn">
                       <div className="px-4 py-3 border-b border-foreground/10">
                         <p className="text-sm text-foreground/70">Signed in as</p>
                         <p className="font-semibold text-foreground truncate">{session.user.email}</p>
@@ -71,7 +90,7 @@ export default function Header() {
                       <div className="py-1 ">
                         <button
                           onClick={handleLogout}
-                          className="block w-full text-left px-4 py-3 text-sm text-red-600 hover:bg-red-500/10 cursor-pointer transition-colors font-medium"
+                          className="block w-full text-left px-4 py-3 text-sm hover:bg-red-500 cursor-pointer transition-colors font-medium"
                         >
                           Sign out
                         </button>
