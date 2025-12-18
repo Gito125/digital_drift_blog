@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { HeroStatsSkeleton } from '@/components/blog/BlogSkeletons';
 
 interface Stat {
   num: string;
@@ -50,20 +51,7 @@ const HeroStats = () => {
   }, []);
 
   if (loading) {
-    return (
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-6 max-w-5xl mx-auto">
-        {[...Array(5)].map((_, index) => (
-          <div
-            key={index}
-            className="group p-6 bg-background/60 backdrop-blur-md border border-foreground/10 rounded-2xl animate-pulse"
-          >
-            <div className="h-8 w-8 mb-2 bg-foreground/10 rounded-lg mx-auto"></div>
-            <div className="h-8 bg-foreground/20 rounded w-3/4 mb-2 mx-auto"></div>
-            <div className="h-4 bg-foreground/10 rounded w-1/2 mx-auto"></div>
-          </div>
-        ))}
-      </div>
-    );
+    return <HeroStatsSkeleton />;
   }
 
   if (error) {

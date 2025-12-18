@@ -57,7 +57,7 @@ export default function AdminMenu({ session, closeMenu }: AdminMenuProps) {
   }
 
   return (
-    <div className="space-y-1 text-white">
+    <div className="space-y-1">
       <p className="px-4 pt-4 pb-2 text-xs font-semibold text-foreground/60 uppercase tracking-wider">Admin</p>
       {navItems.map((item) => (
         <Link

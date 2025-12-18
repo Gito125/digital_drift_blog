@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "./MarkDownStyles.css";
+@import "./skeletonStyles.css";
 
 @theme {
   /* Define color tokens */

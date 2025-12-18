@@ -4,6 +4,7 @@ import { formatNumber } from "@/lib/utils";
 import BlogSearch from "@/components/blog/BlogSearch";
 import { Suspense } from "react";
 import clientPromise from "@/lib/mongodb";
+import { BlogListSkeleton } from "@/components/blog/BlogSkeletons";
 
 // MetaData
 import { Metadata } from 'next';
@@ -42,7 +43,6 @@ async function getPosts(
     const db = client.db();
     const collection = db.collection<Post>("posts");
 
-    // FIX: Explicitly type the query to match Post's status field
     const query = { status: "published" as const };
 
     const posts = await collection
@@ -60,39 +60,6 @@ async function getPosts(
     console.error("Failed to fetch posts from DB:", err);
     throw new Error(`Failed to fetch posts from DB: ${err?.message ?? String(err)}`);
   }
-}
-
-/**
- * Skeleton component for blog list loading state
- */
-function BlogListSkeleton() {
-  return (
-    <>
-      <div className="grid gap-8 max-w-4xl mx-auto">
-        {[...Array(10)].map((_, index) => (
-          <div
-            key={index}
-            className="group p-6 bg-background/60 backdrop-blur-md border border-foreground/10 rounded-xl animate-pulse"
-          >
-            <div className="h-8 bg-foreground/20 rounded w-3/4 mb-3"></div>
-            <div className="h-4 bg-foreground/10 rounded w-full mb-2"></div>
-            <div className="h-4 bg-foreground/10 rounded w-2/3 mb-4"></div>
-            <div className="flex items-center gap-4">
-              <div className="h-4 bg-foreground/10 rounded w-24"></div>
-              <div className="h-4 bg-foreground/10 rounded w-16"></div>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Pagination skeleton */}
-      <div className="flex justify-center items-center mt-12 gap-4">
-        <div className="h-10 bg-foreground/10 rounded-lg w-24"></div>
-        <div className="h-10 bg-foreground/10 rounded w-32"></div>
-        <div className="h-10 bg-foreground/10 rounded-lg w-24"></div>
-      </div>
-    </>
-  );
 }
 
 /**

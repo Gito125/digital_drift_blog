@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Post } from '@/models/Post';
+import { RecentPostsSkeleton } from '@/components/blog/BlogSkeletons';
 
 export default function RecentPostsSection() {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -29,20 +30,7 @@ export default function RecentPostsSection() {
 
   if (loading) {
     return (
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-        <div className="bg-background border border-foreground/10 rounded-xl shadow-md p-6 animate-pulse">
-          <div className="h-6 bg-foreground/10 rounded w-3/4 mb-4"></div>
-          <div className="h-4 bg-foreground/10 rounded w-full mb-2"></div>
-          <div className="h-4 bg-foreground/10 rounded w-full mb-2"></div>
-          <div className="h-4 bg-foreground/10 rounded w-2/3"></div>
-        </div>
-        <div className="bg-background border border-foreground/10 rounded-xl shadow-md p-6 animate-pulse">
-          <div className="h-6 bg-foreground/10 rounded w-3/4 mb-4"></div>
-          <div className="h-4 bg-foreground/10 rounded w-full mb-2"></div>
-          <div className="h-4 bg-foreground/10 rounded w-full mb-2"></div>
-          <div className="h-4 bg-foreground/10 rounded w-2/3"></div>
-        </div>
-      </div>
+      <RecentPostsSkeleton />
     );
   }
 

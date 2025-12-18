@@ -60,10 +60,10 @@ export default function Header() {
                   </button>
 
                   {dropdownOpen && (
-                    <div className="absolute right-0 mt-2 w-56 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_5px)] bg-accent/90 bg-[size:24px_24px] border border-foreground rounded-xl shadow-xl py-2 z-50 animate-fadeIn">
+                    <div className="absolute right-0 mt-2 w-56 bg-background border border-foreground/10 rounded-xl shadow-xl py-2 z-50 animate-fadeIn">
                       <div className="px-4 py-3 border-b border-foreground/10">
-                        <p className="text-sm text-white/70">Signed in as</p>
-                        <p className="font-semibold text-white truncate">{session.user.email}</p>
+                        <p className="text-sm text-foreground/70">Signed in as</p>
+                        <p className="font-semibold text-foreground truncate">{session.user.email}</p>
                       </div>
                       <div className="py-1">
                         <AdminMenu session={session} closeMenu={() => setDropdownOpen(false)} />
@@ -71,7 +71,7 @@ export default function Header() {
                       <div className="py-1 ">
                         <button
                           onClick={handleLogout}
-                          className="block w-full text-left px-4 py-3 text-sm text-red-800 hover:text-white hover:bg-red-50 dark:hover:bg-red-500/70 cursor-pointer transition-colors font-medium"
+                          className="block w-full text-left px-4 py-3 text-sm text-red-600 hover:bg-red-500/10 cursor-pointer transition-colors font-medium"
                         >
                           Sign out
                         </button>
