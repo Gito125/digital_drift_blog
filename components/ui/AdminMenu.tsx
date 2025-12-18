@@ -67,7 +67,7 @@ export default function AdminMenu({ session, closeMenu }: AdminMenuProps) {
           className={`
             flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-all duration-200
             ${isActive(item.href)
-              ? 'bg-accent text-white shadow-lg'
+              ? 'bg-white text-accent shadow-lg rounded-none'
               : 'text-foreground hover:bg-foreground/5 hover:text-accent'
             }
           `}
